@@ -1,0 +1,39 @@
+import os
+import asyncio
+import discord
+import pathlib
+import mysql.connector
+from discord.ext import commands
+from discord.utils import get
+
+class Prefix:
+    def __init__(self, bot):
+        self.bot = bot
+        self.db = mysql.connector.connect(
+            host=os.environ['DB_HOST'],
+            user=os.environ['DB_USER'],
+            password=os.environ['DB_PASS'],
+            database=os.environ['DB_NAME']
+        ) 
+    @commands.Cog.listener() 
+    
+    
+    @commands.command( name="prefix", aliases=["p", "setprefix", "set_p", "setp", "set_prefix", "guildprefix"] )
+    async def setprefix(self, ctx, *, prefix: str):
+        server_id = ctx.guild.id
+        user_id = ctx.author.id
+
+        # Consulta para actualizar el prefijo en la tabla 'prefix'
+        update_prefix_query = "INSERT INTO prefix (server_id, prefix) VALUES (%s, %s) ON DUPLICATE KEY UPDATE prefix=%s"
+        self.cursor.execute(update_prefix_query, (server_id, prefix, prefix))
+
+        # Consulta para insertar el cambio en la tabla 'historialprefix'
+        insert_history_query = "INSERT INTO historialprefix (server_id, old_prefix, new_prefix, changed_by) VALUES (%s, (SELECT prefix FROM prefix WHERE server_id = %s), %s, %s)"
+        self.cursor.execute(insert_history_query, (server_id, server_id, prefix, user_id))
+
+        self.db.commit()
+
+        await ctx.send(f"Prefijo cambiado a: {prefix}")
+
+async def setup(bot):
+    await bot.add_cog(Prefix(bot))
