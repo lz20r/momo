@@ -2,7 +2,7 @@ import os
 import json
 import discord
 from discord.ext import commands
-
+ 
 class BotWelcm(commands.Cog):
     def __init__(self, bot):
         self.bot = bot 

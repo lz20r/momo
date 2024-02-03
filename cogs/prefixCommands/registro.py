@@ -23,7 +23,7 @@ class Registro(commands.Cog):
             "password": password
         }
 
-        response = self.creat_user(user_data)
+        response = self.creat_user(user_data) 
         print(response)
 
         if response.status_code == 201:  
