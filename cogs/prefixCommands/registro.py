@@ -31,16 +31,16 @@ class Registro(commands.Cog):
         else:
             await ctx.send("Hubo un error al registrar el usuario. Por favor, intenta nuevamente.")
 
-        def create_user(self, user):
-
-            headers = {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {self.pterodactyl_api_key}"
-            }
-
-            response = requests.post(self.pterodactyl_api_url, headers=headers, data=json.dumps(user))
-
-            return response.json()
+    def create_user(self, user):
+        headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.pterodactyl_api_key}"
+        }
+        response = requests.post(self.pterodactyl_api_url, headers=headers, data=json.dumps(user))
+         
+        return response.json()
 async def setup(bot):
     await bot.add_cog(Registro(bot))
+
+ 
