@@ -6,7 +6,7 @@ class Registro(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.pterodactyl_api_url = 'https://panel.cinammon.es/api/application'
-        self.pterodactyl_api_key = 'jbS5pY8h89vo0CRAyXmhwtOb1r9bfojoBh7THbJXBvD'
+        self.pterodactyl_api_key = 'ptla_5ZLTYmFM5GFsSufKODqY2aB6jtJ8fe7Y3IJH0XVlF'
 
     @commands.command()
     async def registro(self, ctx, email:str, username:str, first_name:str, last_name:str, password:str):
