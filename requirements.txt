@@ -1,7 +1,6 @@
 discord.py==2.3.2 
-mysql-connector==2.2.9
-mysqlclient==2.2.1 
-openai==0.28.1
+mysql-connector==2.2.9 
+openai==1.6.1
 pandas==2.1.4
 py-cord==2.0.0b7
-requests==2.31.0
+requests==2.31.0 
