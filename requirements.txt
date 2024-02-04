@@ -10,7 +10,7 @@ discord-ext-menus
 httpx==0.23.2
 openai==1.6.1
 pandas==2.1.4 
-psutil0==5.9.8
+psutil==5.9.8
 asyncio==3.4.3
 colorama==0.4.6
 requests==2.31.0 
