@@ -14,11 +14,11 @@ class Registro(commands.Cog):
             return
         
         user_data = {
-            "email": "email",
-            "username": "username",
-			"first_name": "first_name",
-            "las_name": "last_name",
-            "password": "password"
+            "email": mail,
+            "username": username,
+			"first_name": first_name,
+            "las_name": last_name,
+            "password": password
         }
 
         response = self.create_pterodactyl_user(user_data)
@@ -31,15 +31,14 @@ class Registro(commands.Cog):
 
     def create_pterodactyl_user(self, user_data):
         headers = {
-            'Authorization': f'Bearer {self.pterodactyl_api_key}',
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
-
-        data = {user_data}
-
-        response = requests.post(f'{self.pterodactyl_api_url}/users', headers=headers, json=data)
-        return response
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.pterodactyl_api_key}" 
+        } 
+        
+        response = requests.post(self.pterodactyl_api_url, headers=headers, data=json.dumps(user))
+        
+        return response.json()
 
 async def setup(bot):
     await bot.add_cog(Registro(bot))

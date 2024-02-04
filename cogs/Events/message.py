@@ -9,6 +9,7 @@ class MessageLogger(commands.Cog):
         self.data_folder = "Momo Data"  
         os.makedirs(self.data_folder, exist_ok=True)  
         self.json_file_path = os.path.join(self.data_folder, 'MomoMessageMembers.json')
+        self.canal_json_id = 1203112815255097474
         self.canal_notificacion_id = 1202160434686201896   
         self.usuario_notificacion_id = 1143237780466569306   
         self.canal_error_id = 1202541792478887936
@@ -19,8 +20,7 @@ class MessageLogger(commands.Cog):
         if not self.json_created:
             # Obtén el canal específico donde deseas enviar los mensajes de confirmación
             confirmation_channel_id = 1203112815255097474   
-            confirmation_channel = self.bot.get_channel(confirmation_channel_id)  
-            
+            confirmation_channel = self.bot.get_channel(confirmation_channel_id)   
         try:
             with open(self.json_file_path, 'r') as f:
                 self.welcomed_guilds = json.load(f)
@@ -140,11 +140,11 @@ class MessageLogger(commands.Cog):
             with open(ruta_archivo, "w") as archivo:
                 json.dump(datos, archivo, indent=2)
                 embed = discord.Embed(
-                    title="Archivo `MomoMessageMembers`.js` creado",
+                    title="Archivo `MomoMessageMembers`.json` creado",
                     description="El archivo JSON para almacenar los servidoresbienvenidos ha sido creado.", 
                     color=self.color_pastel
                 )
-                await self.bot.get_channel(self.canal_notificacion_id).send(embed=embed) 
+                await self.bot.get_channel(self.canal_json_id).send(embed=embed) 
             return True
         except Exception as e:
             embed = discord.Embed(
