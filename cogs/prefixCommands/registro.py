@@ -20,7 +20,7 @@ class Registro(commands.Cog):
         user_data = {
             "email": mail,
             "username": username,
-			"first_name": first_name,
+            "first_name": first_name,
             "las_name": last_name,
             "password": password
         }
@@ -40,8 +40,8 @@ class Registro(commands.Cog):
             "Authorization": f"Bearer {self.pterodactyl_api_key}" 
         } 
         
-        response = requests.post(self.pterodactyl_api_url, headers=headers, data=json.dumps(user_data))
-        print(response)
+        response = requests.post(self.pterodactyl_api_url, headers=headers, data=user_data)
+		print(response)
         return response.json()
 
 async def setup(bot):
