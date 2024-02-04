@@ -1,6 +1,4 @@
-import os
-import discord
-import asyncio
+import os 
 import requests
 from dotenv import load_dotenv 
 from discord.ext import commands
@@ -18,7 +16,7 @@ class Registro(commands.Cog):
             return
         
         user_data = {
-            "email": mail,
+            "email": email,
             "username": username,
             "first_name": first_name,
             "las_name": last_name,
@@ -41,7 +39,7 @@ class Registro(commands.Cog):
         } 
         
         response = requests.post(self.pterodactyl_api_url, headers=headers, data=user_data)
-		print(response)
+        print(response)
         return response.json()
 
 async def setup(bot):
