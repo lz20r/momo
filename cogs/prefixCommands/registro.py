@@ -1,13 +1,16 @@
+import os
 import discord
 import asyncio
 import requests
+from dotenv import load_dotenv 
 from discord.ext import commands
-
-class Registro(commands.Cog):
+load_dotenv() 
+MOMO_API_PTERODACTYL = os.getenv("MOMO_API_PTERODACTYL")    
+class Registro(commands.Cog): 
     def __init__(self, bot):
         self.bot = bot
-        self.pterodactyl_api_url = 'https://panel.cinammon.es/api/application'
-        self.pterodactyl_api_key = 'jbS5pY8h89vo0CRAyXmhwtOb1r9bfojoBh7THbJXBvD'
+        self.pterodactyl_api_url = 'https://panel.cinammon.es/api/application/users'
+        self.pterodactyl_api_key = MOMO_API_PTERODACTYL
 
     @commands.command()
     async def registro(self, ctx, email:str, username:str, first_name:str, last_name:str, password:str):
@@ -37,8 +40,8 @@ class Registro(commands.Cog):
             "Authorization": f"Bearer {self.pterodactyl_api_key}" 
         } 
         
-        response = requests.post(self.pterodactyl_api_url, headers=headers, data=json.dumps(user))
-        
+        response = requests.post(self.pterodactyl_api_url, headers=headers, data=json.dumps(user_data))
+        print(response)
         return response.json()
 
 async def setup(bot):

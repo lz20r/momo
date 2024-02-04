@@ -2,67 +2,31 @@
   {
     "nombre_usuario": "lz.20r",
     "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "a",
-    "canal": "reports"
-  },
-  {
-    "nombre_usuario": "lz.20r",
-    "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "a",
+    "mensaje_enviado": "-registro example@gmail.com user First Name Last Name Pasword",
     "canal": "pruebas"
   },
   {
     "nombre_usuario": "lz.20r",
     "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "-a",
-    "canal": "pruebas"
-  },
-  {
-    "nombre_usuario": "lz.20r",
-    "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "-av",
-    "canal": "pruebas"
-  },
-  {
-    "nombre_usuario": "lz.20r",
-    "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "a",
-    "canal": "servers-bot"
-  },
-  {
-    "nombre_usuario": "lz.20r",
-    "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "a",
+    "mensaje_enviado": "a\u00e7",
     "canal": "chat"
   },
   {
     "nombre_usuario": "lz.20r",
     "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "-cls 100",
-    "canal": "server-logs"
-  },
-  {
-    "nombre_usuario": "lz.20r",
-    "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "-cls 1000",
-    "canal": "server-logs"
-  },
-  {
-    "nombre_usuario": "lz.20r",
-    "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "a",
-    "canal": "bots"
-  },
-  {
-    "nombre_usuario": "lz.20r",
-    "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "-cls 100",
+    "mensaje_enviado": "-registro",
     "canal": "pruebas"
   },
   {
     "nombre_usuario": "lz.20r",
     "nombre_servidor": "Mint & Cinnamon\u2122",
-    "mensaje_enviado": "-registro example@gmail.com user First Name Last Name Pasword",
+    "mensaje_enviado": "-cls 8",
+    "canal": "pruebas"
+  },
+  {
+    "nombre_usuario": "lz.20r",
+    "nombre_servidor": "Mint & Cinnamon\u2122",
+    "mensaje_enviado": "-cls 3",
     "canal": "pruebas"
   }
 ]
