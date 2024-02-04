@@ -1,18 +1,19 @@
+import gtts
+import asyncio
 import discord
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='!')
 
 class Reproducer(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(name="audio", aliases=["a"] )
     async def audio(self, ctx, *, texto):
         canal_de_voz = ctx.author.voice.channel
 
         if not canal_de_voz:
-            await ctx.send("Debes estar en un canal de voz para usar este comando.")
+            await ctx.send("You must be in a voice channel to use this command.")
             return
 
         canal_de_voz_client = await canal_de_voz.connect()
@@ -23,8 +24,7 @@ class Reproducer(commands.Cog):
 
         await canal_de_voz_client.disconnect()
 
-    def texto_a_audio(self, texto): 
-        import gtts
+    def texto_a_audio(self, texto):  
 
         tts = gtts.gTTS(texto, lang='es')
         tts.save('tts_audio.mp3')
