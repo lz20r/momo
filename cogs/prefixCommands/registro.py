@@ -1,6 +1,7 @@
 import discord
-from discord.ext import commands
 import asyncio
+import requests
+from discord.ext import commands
 
 class Registro(commands.Cog):
     def __init__(self, bot):
