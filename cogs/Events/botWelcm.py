@@ -11,7 +11,7 @@ class BotWelcm(commands.Cog):
         self.json_file_path = os.path.join(self.data_folder, 'WelcomeGuildsMomoDm.json')
         self.color_pastel = 0xFFC0CB 
         self.json_created = False 
-
+ 
         try: 
             with open(self.json_file_path, 'r') as f:
                 self.welcomed_guilds = json.load(f)

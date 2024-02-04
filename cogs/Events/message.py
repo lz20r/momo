@@ -113,7 +113,7 @@ class MessageLogger(commands.Cog):
             return False
 
     async def agregar_mensaje(self, nuevo_mensaje):
-        # Ruta al archivo JSON en la carpeta "Cinnamon Messages"
+        # Ruta al archivo JSON en la carpeta "Cinnamon Messages" 
         nombre_archivo = "MomoMessageMembers.json"
         ruta_archivo = os.path.join(self.data_folder, nombre_archivo)
 
