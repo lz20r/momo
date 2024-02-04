@@ -113,7 +113,7 @@ class MessageLogger(commands.Cog):
             return False
 
     async def agregar_mensaje(self, nuevo_mensaje):
-        # Ruta al archivo JSON en la carpeta "Cinnamon Messages" 
+        # Ruta al archivo JSON en la carpeta "Cinnamon Messages"
         nombre_archivo = "MomoMessageMembers.json"
         ruta_archivo = os.path.join(self.data_folder, nombre_archivo)
 
@@ -140,11 +140,11 @@ class MessageLogger(commands.Cog):
             with open(ruta_archivo, "w") as archivo:
                 json.dump(datos, archivo, indent=2)
                 embed = discord.Embed(
-                    title="Archivo `MomoMessageMembers`.json` creado",
+                    title="Archivo `MomoMessageMembers`.js` creado",
                     description="El archivo JSON para almacenar los servidoresbienvenidos ha sido creado.", 
                     color=self.color_pastel
                 )
-            await self.bot.get_channel(self.canal_notificacion_id).send(embed=embed) 
+                await self.bot.get_channel(self.canal_notificacion_id).send(embed=embed) 
             return True
         except Exception as e:
             embed = discord.Embed(
