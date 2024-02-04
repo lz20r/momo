@@ -11,25 +11,25 @@ class BotWelcm(commands.Cog):
         self.json_file_path = os.path.join(self.data_folder, 'WelcomeGuildsMomoDm.json')
         self.color_pastel = 0xFFC0CB 
         self.json_created = False 
- 
+  
         try: 
             with open(self.json_file_path, 'r') as f:
                 self.welcomed_guilds = json.load(f)
         except FileNotFoundError:
-            self.welcomed_guilds = {}
+            self.welcomed_guilds = {} 
 
     @commands.Cog.listener()
     async def on_ready(self): 
             if not os.path.exits(self.json_file_path): 
                 confirmation_channel_id = 1203112815255097474  # Reemplaza con la ID de tu canal
-                confirmation_channel = self.bot.get_channel(confirmation_channel_id)
+                confirmation_channel = self.bot.get_channel(confirmation_channel_id) 
 
                 # Crea el archivo JSON si no existe y lo escribe
                 with open(self.json_file_path, 'w') as f: 
                     json.dump({}, f, indent=4)
                     embed = discord.Embed(title="Archivo `WelcomeGuildsMomoDm.json` creado", description="Archivo para almacenar los los mensajes de bienvenidos por Momo ha sido creado.", color=self.color_pastel)
                     await confirmation_channel.send(embed=embed)
-    @commands.Cog.listener() 
+    @commands.Cog.listener()  
     async def on_guild_join(self, guild): 
         welcome_message = f"""
         ¡Muchas gracias por añadirme a tu servidor {guild.name}! 
@@ -43,7 +43,7 @@ class BotWelcm(commands.Cog):
         > <:Flechaheart:1203068677570830407> Si necesitas una guía, tengo una muy completa: [Guía](https://docs.cinammon.es)
         > <:Flechaheart:1203068677570830407> ¿Necesitas ayuda? Puedes unirte a mi servidor de soporte: [Servidor de Soporte](https://discord.gg/mintandcinammon).
         """ 
-        announcement_channel = None
+        announcement_channel = None 
 
         # Buscar un canal de anuncios en el servidor
         for channel in guild.text_channels:
@@ -93,4 +93,4 @@ class BotWelcm(commands.Cog):
             json.dump(self.welcomed_guilds, f, indent=4)   
 
 async def setup(bot):  
-    await bot.add_cog(BotWelcm(bot)) 
+    await bot.add_cog(BotWelcm(bot))  

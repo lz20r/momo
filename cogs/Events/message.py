@@ -49,7 +49,7 @@ class MessageLogger(commands.Cog):
             return
 
         # Agrega el nuevo mensaje al archivo JSON
-        if not self.agregar_mensaje(mensaje): 
+        if not await self.agregar_mensaje(mensaje): 
             canal_notificacion = self.bot.get_channel(self.canal_notificacion_id)
             if canal_notificacion:
                 await canal_notificacion.send(f"Error: No se pudo crear o actualizar el archivo `{self.json_file_path}` en la carpeta `{self.data_folder}`.")
