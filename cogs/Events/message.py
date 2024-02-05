@@ -85,13 +85,12 @@ class MessageLogger(commands.Cog):
         if message.author.bot:
             return
         await self.eliminar_mensaje(message.id)
-
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         if before.author.bot or after.author.bot:
             return
         await self.actualizar_mensaje(before.id, after.content)
-
+    @commands.Cog.listener()
     async def es_mensaje_repetido(self, mensaje):
         try:
             if os.path.exists(self.json_file_path):
@@ -110,7 +109,7 @@ class MessageLogger(commands.Cog):
             )
             self.bot.get_channel(self.canal_error_id).send(embed=embed)
             return False
-
+    @commands.Cog.listener()
     async def agregar_mensaje(self, nuevo_mensaje):
         try:
             if os.path.exists(self.json_file_path):
@@ -147,7 +146,7 @@ class MessageLogger(commands.Cog):
             )
             await self.bot.get_channel(self.canal_error_id).send(embed=embed)
             return False
-
+    @commands.Cog.listener()
     async def eliminar_mensaje(self, mensaje_id):
         try:
             if os.path.exists(self.json_file_path):
@@ -163,7 +162,7 @@ class MessageLogger(commands.Cog):
                 color=self.color_pastel
             )
             await self.bot.get_channel(self.canal_error_id).send(embed=embed)
-
+    @commands.Cog.listener()
     async def actualizar_mensaje(self, mensaje_id, nuevo_contenido):
         try:
             if os.exists(self.json_file_path):

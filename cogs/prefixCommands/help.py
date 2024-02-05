@@ -1,56 +1,66 @@
 import discord
 from discord.ext import commands
-intents = discord.Intents.all()    
-class CustomHelpCommand(commands.DefaultHelpCommand):
-    def __init__(self, **options):
-        super().__init__(**options)
+from discord.ui import View, Select, Button
 
-    async def send_bot_help(self, mapping):
-        embed = discord.Embed(title="Ayuda del Bot", color=discord.Color.blue())
-        embed.set_thumbnail(url="URL_DE_TU_LOGO")  # Opcional: Añade el logo de tu bot
-        for cog, commands in mapping.items():
-            filtered_commands = await self.filter_commands(commands, sort=True)
-            command_signatures = [self.get_command_signature(c) for c in filtered_commands]
-            if command_signatures:
-                cog_name = getattr(cog, "qualified_name", "Sin Categoría")
-                embed.add_field(name=cog_name, value="\n".join(command_signatures), inline=False)
-        
-        channel = self.get_destination()
-        await channel.send(embed=embed)
 
-    async def send_cog_help(self, cog):
-        embed = discord.Embed(title=f"{cog.qualified_name} - Comandos", color=discord.Color.green())
-        filtered_commands = await self.filter_commands(cog.get_commands(), sort=True)
-        for command in filtered_commands:
-            embed.add_field(name=self.get_command_signature(command), value=command.short_doc or "Sin descripción", inline=False)
-        
-        channel = self.get_destination()
-        await channel.send(embed=embed)
+class MySelect(View, commands.Cog):
 
-    async def send_group_help(self, group):
-        embed = discord.Embed(title=self.get_command_signature(group), description=group.short_doc, color=discord.Color.orange())
-        filtered_commands = await self.filter_commands(group.commands, sort=True)
-        for command in filtered_commands:
-            embed.add_field(name=self.get_command_signature(command), value=command.short_doc or "Sin descripción", inline=False)
-        
-        channel = self.get_destination()
-        await channel.send(embed=embed)
-
-    async def send_command_help(self, command):
-        embed = discord.Embed(title=self.get_command_signature(command), description=command.help, color=discord.Color.red())
-        channel = self.get_destination()
-        await channel.send(embed=embed)
-
-bot = commands.Bot(command_prefix="!", help_command=CustomHelpCommand())
-
-@bot.event
-async def on_ready():
-    print(f'Bot conectado como {bot.user}')
-
-@bot.command(help="Muestra este mensaje de ayuda.")
-async def ayuda(ctx):
-    """Este comando muestra el mensaje de ayuda."""
-    await ctx.send_help()
-
-async def setup(bot):
-    await bot.add_cog(CustomHelpCommand(bot))
+    @discord.ui.select(
+        placeholder='Click for more of kira',
+        options=[
+            discord.SelectOption(label='home', value='0', description='kira Home Page'),
+            discord.SelectOption(label='action', value='1', description='kira Action Commands'),
+            discord.SelectOption(label='anime', value='2', description='kira Anime Commands'),
+            discord.SelectOption(label='club', value='3', description='kira Club Commands'),
+            discord.SelectOption(label='config', value='4', description='kira Setting Commands'),
+            discord.SelectOption(label='currency', value='5', description='kira Economy Commands'),
+            discord.SelectOption(label='fun', value='6', description='kira Fun Commands'),
+            discord.SelectOption(label='info', value='7', description='kira Information Commands'),
+            discord.SelectOption(label='manager', value='8', description='kira Administration Commands'),
+            discord.SelectOption(label='marriage', value='9', description='kira Marriage Commands'),
+            discord.SelectOption(label='misc', value='10', description='kira Miscellaneous Commands'),
+            discord.SelectOption(label='mod', value='11', description='kira Moderation Commands'),
+            discord.SelectOption(label='music', value='12', description='kira Music Commands'),
+            discord.SelectOption(label='nsfw', value='13', description='kira NSFW Commands'),
+            discord.SelectOption(label='reaction', value='14', description='kira Reaction Commands'),
+            discord.SelectOption(label='utils', value='15', description='kira Utility Commands'),
+            discord.SelectOption(label='genshin', value='16', description='kira Genshin Impact Commands'),
+            discord.SelectOption(label='verify', value='17', description='kira Verification Commands'),
+        ]
+    )
+    @commands.command(name="ayuda", aliases=["help", "h", "a"])    
+    async def ayuda(ctx, self):
+        bot = ctx.bot
+        prefix = self.bot.get_prefix(ctx.message)   
+        view = MySelect()
+        thumbnail_url = bot.user.avatar.url
+        embed = discord.Embed(
+            title="**{} home page <3**".format(bot.user.name), 
+            description=
+            f"""**Comandos de {bot.user.name}**
+            
+            » **Menú de ayuda**\n\n Tenemos `7` categories, `38` `/` and `10` `{prefix}` comandos a explorar. Hay `0` Comandos Secretos.
+            
+            Lista de comandos: `help <category>`
+            Comandos detallados: `help <command>`
+            » **Categorías**"
+            `{prefix} help action`  ∷ Action
+            `{prefix} help anime`  ∷ Anime
+            `{prefix} help club`  ∷ Club
+            `{prefix} help config`  ∷ Setting
+            `{prefix} help currency`  ∷ Economy
+            `{prefix} help fun`  ∷ Fun
+            `{prefix} help info`  ∷ Information
+            `{prefix} help manager`  ∷ Administration
+            `{prefix} help marriage`  ∷ Marriages
+            `{prefix} help misc`  ∷ Miscellaneous
+            `{prefix} help mod`  ∷ Moderation
+            `{prefix} help music`  ∷ Music
+            `{prefix} help nsfw`  ∷ NSFW
+            `{prefix} help reaction`  ∷ Reaction
+            `{prefix} help utils`  ∷ Utilities
+            `{prefix} help genshin`  ∷ Genshin Impact
+            `{prefix} help verify`  ∷ Verification""") 
+        embed.set_thumbnail(url=thumbnail_url)
+        embed.set_footer(text=bot.user.name, icon_url=thumbnail_url)
+        await ctx.send(embed=embed, view=view) 
