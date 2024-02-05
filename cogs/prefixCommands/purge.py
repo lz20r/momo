@@ -4,11 +4,10 @@ from discord.ui import Select, View, Button, button
 
 class Purgar(commands.Cog, name="Purge"):
    """Recieves ping commands"""
- 
+   
    def __init__(self, bot):
       self.bot = bot   
-  
-
+   
    @commands.command(name="purge", aliases=['cls','purg', 'pur', 'cl', 'clear'])
    @commands.has_permissions(manage_messages=True) 
    async def clear(self, ctx: commands.Context, amount: int = None): 
