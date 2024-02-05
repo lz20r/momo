@@ -6,9 +6,10 @@ import discord
 import difflib
 import requests 
 import mysql.connector
+import json
 from tabulate import tabulate
 from bs4 import BeautifulSoup
-from discord.ext import commands 
+from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 
 class Ready(commands.Cog):
@@ -16,9 +17,8 @@ class Ready(commands.Cog):
         self.bot = bot 
         self.BOT_ID = '1143237780466569306'
 
-    async def get_image_urls(self):
-        url = "https://pin.it/47EDzzDhl"
-        response = requests.get(url)
+    async def get_image_urls(self, pinterest_url):
+        response = requests.get(pinterest_url)
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             image_tags = soup.find_all('img')
@@ -28,23 +28,26 @@ class Ready(commands.Cog):
             return []
 
     async def change_avatar(self):
-        used_images = set()
-        image_urls = await self.get_image_urls()
-        if image_urls:
-            available_images = list(set(image_urls) - used_images)
-            if available_images:
-                image_url = random.choice(available_images)
-                used_images.add(image_url)
-                response = requests.get(image_url)
-                if response.status_code == 200:
-                    image_data = response.content
-                    await self.bot.user.edit(avatar=image_data)
-                else:
-                    pass
-            else:
-                pass
-        else:
-            pass
+        guild_id = '1146852222265741482'
+        channel_id = '1203812617886633984'
+        guild = self.bot.get_guild(int(guild_id))
+        if guild:
+            channel = guild.get_channel(int(channel_id))
+            if channel and isinstance(channel, discord.TextChannel):
+                pinterest_url = 'https://pin.it/47EDzzDhl'
+                image_urls = await self.get_image_urls(pinterest_url)
+                if image_urls:
+                    image_url = random.choice(image_urls)
+                    response = requests.get(image_url)
+                    if response.status_code == 200:
+                        image_data = response.content
+                        await self.bot.user.edit(avatar=image_data)
+                        try:
+                            embed = discord.Embed(description=f'[support server](https://discord.gg/UyWTwcWMtb) <a:MT_Weee:1158115648107458603>', color=0xFFFFFF)
+                            embed.set_image(url=image_url)
+                            await channel.send(embed=embed)
+                        except Exception as e:
+                            pass
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -81,7 +84,7 @@ class Ready(commands.Cog):
 
         print(table)  
         await self.change_avatar_loop()
-
+        
     async def change_avatar_loop(self):
         while True:
             await self.change_avatar()

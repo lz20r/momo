@@ -20,7 +20,7 @@ class Reproducer(commands.Cog):
         canal_de_voz_client.play(discord.FFmpegPCMAudio(executable="ffmpeg", source=self.texto_a_audio(texto)))
 
         while canal_de_voz_client.is_playing():
-            await asyncio.sleep(1)
+            await asyncio.sleep(10)
 
         await canal_de_voz_client.disconnect()
 

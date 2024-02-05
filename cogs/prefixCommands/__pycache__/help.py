@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-intents = discord.Intents.all()    
+
 class CustomHelpCommand(commands.DefaultHelpCommand):
     def __init__(self, **options):
         super().__init__(**options)
@@ -52,5 +52,5 @@ async def ayuda(ctx):
     """Este comando muestra el mensaje de ayuda."""
     await ctx.send_help()
 
-async def setup(bot):
-    await bot.add_cog(CustomHelpCommand(bot))
+async def setup(bot)
+          await bot.add_cog(CustomHelpCommand(bot))
