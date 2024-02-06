@@ -1,9 +1,6 @@
 import discord
-import sys
-import difflib
-from itertools import cycle
 from discord.ext import commands, tasks
-from discord.ext.commands import CommandNotFound
+from itertools import cycle
 
 class Status(commands.Cog):
     def __init__(self, bot):
@@ -11,7 +8,9 @@ class Status(commands.Cog):
         self.status = cycle([  
             '💞・hosted in panel.cinammon.es', 
             '💞・m.help to get information',
-            '💞・{guild_count} servers'
+            '💞・{guild_count} servers',
+            '💞・{member_count} members',
+            '💞・{channel_count} channels'
         ]) 
         
     @tasks.loop(seconds=3.0)
@@ -19,9 +18,14 @@ class Status(commands.Cog):
         new_status = next(self.status) 
         if "{guild_count}" in new_status:
             new_status = new_status.format(guild_count=len(self.bot.guilds))
-            await self.bot.change_presence(activity=discord.CustomActivity(name=new_status), status=discord.Status.dnd)
-        else:
-            await self.bot.change_presence(activity=discord.CustomActivity(name=new_status), status=discord.Status.dnd)
+        elif "{member_count}" in new_status:
+            member_count = sum(guild.member_count for guild in self.bot.guilds)
+            new_status = new_status.format(member_count=member_count)
+        elif "{channel_count}" in new_status:
+            channel_count = sum(len(guild.channels) for guild in self.bot.guilds)
+            new_status = new_status.format(channel_count=channel_count)
+        
+        await self.bot.change_presence(activity=discord.CustomActivity(name=new_status), status=discord.Status.dnd)
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -30,4 +34,4 @@ class Status(commands.Cog):
         
 
 async def setup(bot):
-    await bot.add_cog(Status(bot)) 
+    await bot.add_cog(Status(bot))

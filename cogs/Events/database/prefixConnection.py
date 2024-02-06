@@ -3,7 +3,7 @@ import mysql.connector
 from tabulate import tabulate
 from discord.ext import commands
 
-class Prefix(commands.Cog):
+class PrefixConnection(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -73,4 +73,4 @@ class Prefix(commands.Cog):
             return str(e)
         
 async def setup(bot):
-    await bot.add_cog(Prefix(bot)) 
+    await bot.add_cog(PrefixConnection(bot)) 

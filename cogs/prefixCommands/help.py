@@ -6,10 +6,9 @@ class HelpView(View):
     def __init__(self, select, bot, ctx, interaction):
         bot = self.bot
         ctx = self.ctx 
-        userbot = self.bot.user.name
-        color_error = self.bot.color_error = 0x2b2d31
-        color_pastel = self.fbot.color_pastel = 0x2b2d31
-        prefix = self.bot.get_prefix(ctx.message)
+        color_error = bot.color_error = 0x2b2d31
+        color_pastel = bot.color_pastel = 0x2b2d31
+        prefix = prefix = await bot.get_prefix(ctx.message)
         
         @discord.ui.select(
             placeholder='Click for more of kira',
@@ -69,7 +68,7 @@ class HelpView(View):
                         `{prefix} help genshin`  ∷ Genshin Impact
                         `{prefix} help verify`  ∷ Verification""") 
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_footer(text=userbot, icon_url=thumbnail_url)
+                    embed.set_footer(text=bot.user.name, icon_url=thumbnail_url)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "1":
@@ -81,7 +80,6 @@ class HelpView(View):
                         f"""**Comandos:** 
                         ```bf\nangry           baka            bang            bite            bye             cheeks          claps           cook            cuddle          feed            gaming          glare           handhold        heal            hi              highfive        hug             kickbutt        kill            kisscheeks      laugh           lick            pat             poke            punch           scared          slap            sleep           smack           spank           splash          spray           stare           throw           tickle          tsundere        wink            kiss```""") 
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "2":
@@ -93,7 +91,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\nanimanga        anilist         anisearch       awoo            crunchyroll     fbi             husbando        jpose           kemo            manlist         mansearch       nani            neko            nekogif         nekotina        poi             ranime          rmanga          rem             rero            trap            tanime          tmanga          waifu           zawarudo```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "3":
@@ -104,8 +101,6 @@ class HelpView(View):
                         f"Ayuda detallada sobre un comando: `{prefix}help <club>`\n\n"+
                         f"""**Comandos:**
                         ```bf\nclubaccept      clubadmin       clubapply       clubapps        clubban         clubbans        clubcreate      clubdep         clubdesc        clubdisband     clubicon        clubinfo        clubkick        clublb          clubleave       clublevel       clublogs        clubmanager     clubmember      clubreject      clubrename      clubskills      clubstorage     clubtransfer    clubunban       clubwd```""")
-                    embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)                    
                     await interaction.response.edit_message(embed=embed) 
 
                 if selected_value == "4":
@@ -128,7 +123,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\nbag             balance         buffs           buy             claimcode       collect         craft           crime           daily           deposit         event           fish            gift            guide           iteminfo        leaderboard     market          mine            nekodex         nekoshop        pet             profile         quest           rank            repair          sell            servershop      settings        share           shop            slots           storage         trade           use             withdraw        work            xmas            mix             chop```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "6":
@@ -140,7 +134,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\n8ball           ask             banana          bonk            catfact         choose          confess         delete          dogfact         dream           guess           kitty           lucky           magik           match           petpet          pupper          reputation      roll            rps             say             ship            stonks          sus             tictactoe       traderep        trivia          tweet```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "7":
@@ -152,7 +145,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\ndonate          help            invite          partners        ping            prefix          rules           stats           support         updates         vote```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "8":
@@ -164,7 +156,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\naddrole         coloroles       lock            massrole        purge           removerole      rolecolor       setnick         slowmode        togglensfw      unlock```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
                 
                 if selected_value == "9":
@@ -176,7 +167,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\nacceptmarriage  declinemarriage divorce         letter          marriages       marry           proposals       teammate        tree```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "10":
@@ -188,7 +178,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\nafk             avatar          banner          channel         color           emoji           emojis          github          inviteinfo      rgb             randomcolor     randomuser      role            roles           server          serverbanner    serverdiscovery servericon      tiktok          twitch          userinfo```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "11":
@@ -200,7 +189,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\nban             case            clearwarns      forceban        hardmute        kick            moderations     mute            mutelist        softban         timeout         unban           unmute          untimeout       unwarn          updatecase      warn            warns```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "12":
@@ -212,7 +200,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\nclear           insert          join            loop            loopqueue       lyrics          move            nowplaying      pause           play            queue           radio           remove          replay          resume          reverse         search          seek            shuffle         skip            stop```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "13":
@@ -224,7 +211,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\nhentai          neko            wallpaper```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "14":
@@ -236,7 +222,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\nbanghead        blush           boom            bored           confused        cry             dab             dance           deredere        disgust         drunk           eat             facepalm        fail            fly             happy           jump            lewd            like            nope            peek            pout            psycho          run             sad             scream          shrug           sing            sip             smile           smug            teehee          think           thinking        trick           vomit           wag             wasted          yandere```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "15":
@@ -248,7 +233,6 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\nbirthday        block           blocklist       math            rate            reedem          remindme        star            suggestion      tag             transcribe      translate       unblock         weather         wiki```""")
                     embed.set_thumbnail(url=thumbnail_url)
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "16":
@@ -260,13 +244,10 @@ class HelpView(View):
                         f"""**Comandos:**
                         ```bf\nregister        login           logout          profile         character       artifact        weapon          constellation          element```""") 	
                     embed.set_thumbnail(url=thumbnail_url)  
-                    embed.set_color(color_pastel)
                     await interaction.response.edit_message(embed=embed)
 
                 if selected_value == "17":
-                    embed.set_thumbnail(url)
                     thumbnail_url = bot.user.avatar.url
-                    embed.set_color(color_pastel)
                     embed = discord.Embed(
                         title=f"kira Verification commands <3",
                         description=
@@ -282,13 +263,13 @@ class HelpView(View):
             )
         
 class Help(View): 
-    def __init__(self, ctx):
+    def __init__(self, bot, ctx):
         super().__init__()
         bot = self.bot
         ctx = self.ctx 
-        color_error = self.bot.color_error = 0xe74c3c
-        color_pastel = self.bot.color_pastel = 0x2b2d31
-        prefix = self.bot.get_prefix(ctx.message)   
+        color_error = bot.color_error
+        color_pastel = bot.color_pastel = 0x2b2d31
+        prefix = bot.self.bot.get_prefix(ctx.message)   
         
         commands.command(name="ayuda", aliases=["help", "h", "a"])
         async def ayuda(): 
