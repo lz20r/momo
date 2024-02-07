@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 from discord.ext import commands   
 
 
-prefix_file = "prefix.json"
-setprefix_file = "setprefix.json"
+prefix_file = "MomoPrefixes.json"
+setprefix_file = "SetMomoPrefix.json"
 
 def save_prefixes(): 
     with open(prefix_file, "w") as file:
