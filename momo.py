@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 from discord.ext import commands   
 
 
-prefix_file = "MomoPrefixes.json"
-setprefix_file = "SetMomoPrefix.json"
+prefix_file = "prefix.json"
+setprefix_file = "setprefix.json"
 
 def save_prefixes(): 
     with open(prefix_file, "w") as file:
@@ -84,4 +84,4 @@ async def on_message(message):
     server_prefixes = load_server_prefixes()
     await client.process_commands(message)
 
-asyncio.run(main())
+asyncio.run(main()) 
