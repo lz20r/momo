@@ -21,7 +21,7 @@ class prefix_manual(commands.Cog):
         except FileNotFoundError:
             return {}
 
-    @commands.command(name='manualprefix', aliases=['mp', 'serverprefix'])
+    @commands.command(name='setPrefix', aliases=['sp', 'serverprefix'])
     @commands.has_permissions(administrator=True)
     async def set_prefix(self, ctx, new_prefix=None):
         server_id = str(ctx.guild.id)
