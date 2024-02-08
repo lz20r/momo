@@ -34,9 +34,7 @@ class DM(commands.Cog):
                 "message": message,
                 "timestamp": datetime.now().isoformat()
             }
-        except error as e:
-            await ctx.send(f"Error {e}") 
- 
+            
             # Enviar aviso en un canal concreto
             channel = self.bot.get_channel(self.DM_file_path_channel_id)   
             embed = discord.Embed(title="DM Enviado", color=discord.Color.blue())
@@ -45,6 +43,9 @@ class DM(commands.Cog):
             embed.add_field(name="Mensaje", value=data['message'], inline=False)
             embed.add_field(name="Fecha", value=data['timestamp'], inline=False)
             await channel.send(embed=embed)
+            
+        except Exception as e:
+            await ctx.send(f"Error al enviar el mensaje: {e}")
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -68,16 +69,5 @@ class DM(commands.Cog):
                 )
                 await self.bot.get_channel(self.canal_error_id).send(embed=embed)
 
-        except discord.Forbidden:
-            # Define el ID del canal de errores
-            error_channel_id = 1202541792478887936  # Reemplaza id_del_canal_de_errores con el ID real del canal de errores
-
-            # Crea un embed para el mensaje de error
-            embed = discord.Embed(title="Error al Enviar DM", description="No tengo permisos para enviar DMs a este usuario.", color=discord.Color.red())
-
-            # Enviar el embed al canal de errores
-            error_channel = self.bot.get_channel(error_channel_id)
-            await error_channel.send(embed=embed)
-
 async def setup(bot):
-    await bot.add_cog(DM(bot))
+    await bot.add_cog(DM(bot)) 
