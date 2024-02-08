@@ -3,7 +3,7 @@ from discord.ext import commands
 import os
 import json
 
-class PrefixManual(commands.Cog):
+class Prefix(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -12,7 +12,6 @@ class PrefixManual(commands.Cog):
         self.prefix_file_path = os.path.join(self.data_folder, 'Momoprefix.json')
         self.server_prefixes = self.load_prefixes()
 
-        # Actualizar la función get_prefix del bot para que use este método
         bot.command_prefix = self.get_dynamic_prefix
 
     async def get_dynamic_prefix(self, bot, message):
@@ -55,5 +54,4 @@ class PrefixManual(commands.Cog):
         await ctx.send(embed=embed)
 
 async def setup(bot):
-    await bot.add_cog(PrefixManual(bot))
-    # Si necesitas actualizar el prefijo en tiempo real después de cargar el cog, puedes hacerlo aquí.
+    await bot.add_cog(Prefix(bot)) 
