@@ -34,7 +34,9 @@ class DM(commands.Cog):
                 "message": message,
                 "timestamp": datetime.now().isoformat()
             }
-
+        except error as e:
+            await ctx.send(f"Error {e}") 
+ 
             # Enviar aviso en un canal concreto
             channel = self.bot.get_channel(self.DM_file_path_channel_id)   
             embed = discord.Embed(title="DM Enviado", color=discord.Color.blue())

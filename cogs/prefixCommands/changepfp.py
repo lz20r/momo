@@ -11,13 +11,12 @@ class Changepfp(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(name="setPfp", aliases=["spfp"])
     async def changepfp(self, ctx, url: str):
         allowed_ids = [298704465178001418, 1033160523044376616]
         if ctx.author.id not in allowed_ids:
             await ctx.send("You are not authorized to use this command.")
             return
-        
         try:
             async with ctx.typing():
                 response = requests.get(url)

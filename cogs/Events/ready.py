@@ -16,38 +16,44 @@ class Ready(commands.Cog):
     def __init__(self, bot):
         self.bot = bot 
         self.BOT_ID = '1143237780466569306'
+        self.used_images = set()
 
-    async def get_image_urls(self, pinterest_url):
-        response = requests.get(pinterest_url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            image_tags = soup.find_all('img')
-            image_urls = [tag['src'] for tag in image_tags if 'src' in tag.attrs]
-            return image_urls
-        else:
-            return []
+    async def get_image_urls(self):
+        image_urls = []
+        with open('animes.txt', 'r') as file:
+            for line in file:
+                line = line.strip()
+                if line.lower().endswith(('.gif', '.jpeg')):
+                    image_urls.append(line)
+        return image_urls
 
+    @tasks.loop(minutes=14)
     async def change_avatar(self):
-        guild_id = '1146852222265741482'
-        channel_id = '1203812617886633984'
-        guild = self.bot.get_guild(int(guild_id))
-        if guild:
-            channel = guild.get_channel(int(channel_id))
-            if channel and isinstance(channel, discord.TextChannel):
-                pinterest_url = 'https://pin.it/47EDzzDhl'
-                image_urls = await self.get_image_urls(pinterest_url)
-                if image_urls:
-                    image_url = random.choice(image_urls)
-                    response = requests.get(image_url)
-                    if response.status_code == 200:
-                        image_data = response.content
-                        await self.bot.user.edit(avatar=image_data)
+        image_urls = await self.get_image_urls()
+        if image_urls:
+            available_images = list(set(image_urls) - self.used_images)
+            if available_images:
+                image_url = random.choice(available_images)
+                self.used_images.add(image_url)
+                response = requests.get(image_url)
+                if response.status_code == 200:
+                    image_data = response.content
+                    try:
+                        with open("avatar.png", "wb") as f:
+                            f.write(image_data)
+                    except Exception as e:
+                        pass
+                    else:
+                        with open("avatar.png", "rb") as f:
+                            avatar_bytes = f.read()
                         try:
-                            embed = discord.Embed(description=f'[support server](https://discord.gg/UyWTwcWMtb) <a:MT_Weee:1158115648107458603>', color=0xFFFFFF)
-                            embed.set_image(url=image_url)
-                            await channel.send(embed=embed)
-                        except Exception as e:
+                            await self.bot.user.edit(avatar=avatar_bytes)
+                        except discord.HTTPException as e:
                             pass
+                else:
+                    pass
+        else:
+            pass
 
     @commands.Cog.listener()
     async def on_ready(self):

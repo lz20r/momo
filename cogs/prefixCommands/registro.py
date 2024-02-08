@@ -62,7 +62,7 @@ class Registro(commands.Cog, name="registro"):
             else:
                 return {"error": "Error al eliminar el usuario."}
 
-    @commands.command(name="cancelacion_registro", aliases=['unreg','unregist', 'dr'])
+    @commands.command(name="unregistration", aliases=['unreg','unregist', 'ur'])
     async def unregistration(self, ctx, user_id: int):
         if ctx.channel.id != 1202155438679019580:
             return  

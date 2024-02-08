@@ -104,7 +104,7 @@ class MessageLogger(commands.Cog):
         except Exception as e:
             embed = discord.Embed(
                 title="Error",
-                description=f"Error al cargar el archivo JSON: ```{e}```",
+                description=f"Error al cargar el archivo 'MomoMessageMembers.json': ```{e}```",
                 color=self.color_pastel
             )
             self.bot.get_channel(self.canal_error_id).send(embed=embed)
@@ -120,7 +120,7 @@ class MessageLogger(commands.Cog):
         except Exception as e:
             embed = discord.Embed(
                 title="Error",
-                description=f"Error al cargar el archivo JSON: ```{e}```",
+                description=f"Error al cargar el archivo 'MomoMessageMembers.json': ```{e}```",
                 color=self.color_pastel
             )
             self.bot.get_channel(self.canal_error_id).send(embed=embed)
@@ -132,8 +132,8 @@ class MessageLogger(commands.Cog):
             with open(self.json_file_path, "w") as archivo:
                 json.dump(datos, archivo, indent=4)
                 embed = discord.Embed(
-                    title="Archivo `MomoMessageMembers.json` creado y actualizado",
-                    description="`MomoMessageMembers.json` almacena los mensajes enviados por cualquier usuario en cualquier servidor que tenga a Momo",
+                    title="Archivo `MomoMessageMembers.json`",
+                    description="Se ha actualizado",
                     color=self.color_pastel
                 )
                 await self.bot.get_channel(self.canal_json_id).send(embed=embed)
@@ -141,7 +141,7 @@ class MessageLogger(commands.Cog):
         except Exception as e:
             embed = discord.Embed(
                 title="Error",
-                description=f"Error al guardar el archivo JSON: ```{e}```",
+                description=f"Error al guardar el archivo `MomoMessageMembers.json`: ```{e}```",
                 color=self.color_pastel
             )
             await self.bot.get_channel(self.canal_error_id).send(embed=embed)
@@ -158,7 +158,7 @@ class MessageLogger(commands.Cog):
         except Exception as e:
             embed = discord.Embed(
                 title="Error",
-                description=f"Error al eliminar el mensaje del archivo JSON: ```{e}```",
+                description=f"Error al eliminar el mensaje del archivo `MomoMessageMembers.json`: ```{e}```",
                 color=self.color_pastel
             )
             await self.bot.get_channel(self.canal_error_id).send(embed=embed)
@@ -177,7 +177,7 @@ class MessageLogger(commands.Cog):
         except Exception as e:
             embed = discord.Embed(
                 title="Error",
-                description=f"Error al actualizar el mensaje en el archivo JSON: ```{e}```",
+                description=f"Error al actualizar el mensaje en el archivo `MomoMessageMembers.json`: ```{e}```",
                 color=self.color_pastel
             )
             await self.bot.get_channel(self.canal_error_id).send(embed=embed)
@@ -236,8 +236,8 @@ class MessageLogger(commands.Cog):
                 await self.bot.get_channel(self.voice_events_channel_id).send(embed=embed)
             except Exception as e:
                 embed = discord.Embed(
-                    title=f"Error in {voice_events_path}",
-                    description=f"Error al crear el archivo {voice_events_path}: ```{e}```",
+                    title=f"Error in `MomoMeVoiceEventsssageMembers.json`",
+                    description=f"Error al crear el archivo: ```{e}```",
                     color=self.color_pastel
                 )
                 await self.bot.get_channel(self.canal_error_id).send(embed=embed)
