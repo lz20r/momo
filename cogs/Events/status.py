@@ -25,7 +25,7 @@ class Status(commands.Cog):
             channel_count = sum(len(guild.channels) for guild in self.bot.guilds)
             new_status = new_status.format(channel_count=channel_count)
         
-        await self.bot.change_presence(activity=discord.CustomActivity(name=new_status), status=discord.Status.dnd)
+        await self.bot.change_presence(activity=discord.CustomActivity(name=new_status), status=discord.Status.idle)
 
     @commands.Cog.listener()
     async def on_ready(self):
