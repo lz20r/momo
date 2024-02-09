@@ -3,17 +3,20 @@ import json
 import asyncio
 import pathlib
 import discord   
+from httpx import get   
 from dotenv import load_dotenv 
 from discord.ext import commands
-from httpx import get   
 
 
 def get_prefix(): 
     return "m." 
 
+def self_prefix(): 
+    return "m."
+
 # Intents 
 intents = discord.Intents.all()    
-client = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None, status=discord.Status.dnd)  
+client = commands.Bot(command_prefix=get_prefix, command_self_prefix=self_prefix, intents=intents, help_command=None, status=discord.Status.dnd)  
 
 @commands.Cog.listener()
 async def on_message(message): 
@@ -27,6 +30,8 @@ async def on_message(message):
         else:
             embed = discord.Embed(title="", description=f"<:line:1194496410167549963> self prefix is: `{user_prefix}`")
             await message.reply(embed=embed)
+            
+            
 
 async def load_extensions(): 
     # Load Cogs

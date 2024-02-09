@@ -11,7 +11,7 @@ class Restart(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="restart", aliases=["reset"])
+    @commands.command(name="restart", aliases=["reset", "r"])
     async def restart(self, ctx):
         allowed_ids = [298704465178001418, 1033160523044376616]
         author_id = ctx.author.id
