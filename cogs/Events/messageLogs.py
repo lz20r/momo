@@ -162,6 +162,7 @@ class MessageLogger(commands.Cog):
                 color=self.color_pastel
             )
             await self.bot.get_channel(self.canal_error_id).send(embed=embed)
+    
     @commands.Cog.listener()
     async def actualizar_mensaje(self, mensaje_id, nuevo_contenido):
         try:
@@ -190,6 +191,7 @@ class MessageLogger(commands.Cog):
             if after.channel:
                 await self.registrar_evento(f"{member} entró al canal de voz {after.channel.name}.")
 
+    @commands.Cog.listener()
     async def registrar_evento(self, evento):
         try:
             evento_data = {
@@ -230,7 +232,7 @@ class MessageLogger(commands.Cog):
                 if voice_events_channel:
                     embed = discord.Embed(
                         title="Archivo `MomoMeVoiceEventsssageMembers.json` creado y actualizado",
-                        description="`MomoVoiceEvents.json` almacena los mensajes enviados por cualquier usuario en cualquier servidor que tenga a Momo",
+                        description="`MomoVoiceEvents.json` almacena las entradas y salidas de los usuarios en los canales de voz en cualquier servidor que tenga a Momo",
                         color=self.color_pastel
                     ) 
                 await self.bot.get_channel(self.voice_events_channel_id).send(embed=embed)

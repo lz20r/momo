@@ -6,8 +6,8 @@ import os
 class DMNotification(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.data_folder = "Momo Data"
-        self.data_file = "MomoDmMessages.json"
+        self.data_folder = "Momo Data/DM" 
+        self.data_file = "MomoDmUsers.json"
       
         # Asegúrate de que la carpeta existe
         if not os.path.exists(self.data_folder):

@@ -28,9 +28,9 @@ class CommandsError(commands.Cog):
             closest_command = difflib.get_close_matches(command_name, available_commands, n=1)
             if closest_command:
                 suggestion = closest_command[0]
-                embed = discord.Embed(description=f"<:mtinfo:1158016372471771287>  Command `{command_name}` not found, try `{suggestion}`")
+                embed = discord.Embed(description=f"<:mtinfo:1158016372471771287>  Command `{command_name}` not found, try **{suggestion}**")
             else:
-                embed = discord.Embed(description=f"<:mtinfo:1158016372471771287>  Command `{command_name}` not found, try `{suggestion}`")          
+                embed = discord.Embed(description=f"<:mtinfo:1158016372471771287>  Command `{command_name}` not found.")          
             await ctx.send(embed=embed, delete_after=20)
         elif isinstance(error, discord.errors.HTTPException):
             error_message = str(error)
