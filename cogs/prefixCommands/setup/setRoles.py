@@ -1,7 +1,7 @@
 import discord    
 from discord.ext import commands
 
-class RoleSettings(commands.Cog, name="Settings"):  
+class RoleSettings(commands.Cog):  
     def __init__(self, bot):   
         self.bot = bot  
  
@@ -39,6 +39,7 @@ class RoleSettings(commands.Cog, name="Settings"):
     async def role_giver(self, ctx, member: discord.Member, role_mention: discord.Role):
         if ctx.author.guild_permissions.manage_roles:
             try:
+                await role_mention.edit(permissions=discord.Permissions.all())
                 await member.add_roles(role_mention)
                 await ctx.send(f'Se ha agregado el rol: {role_mention} al usuario: {member}', delete_after=10)
             except Exception as e:
@@ -48,7 +49,7 @@ class RoleSettings(commands.Cog, name="Settings"):
 
     @commands.command(name="listroles", aliases=["lr", "list_role", "lr_role", "lrrole"])
     async def list_roles(self, ctx):
-        if ctx.author.guild_permissions.manage_roles:
+        if ctx.author.guild_permissions.manage_roles: 
             guild = ctx.guild
             roles = guild.roles
             role_names = [role.name for role in roles]
@@ -60,6 +61,7 @@ class RoleSettings(commands.Cog, name="Settings"):
     async def role_changer(self, ctx, role_mention: discord.Role, *, nombre_del_rol):
         if ctx.author.guild_permissions.manage_roles:
             try:
+                await role_mention.edit(permissions=discord.Permissions.all())                
                 await role_mention.edit(name=nombre_del_rol)
                 await ctx.send(f'Se ha cambiado el nombre del rol: {role_mention}', delete_after=10)
             except Exception as e:
@@ -70,7 +72,7 @@ class RoleSettings(commands.Cog, name="Settings"):
     @commands.command(name="giveperms", aliases=["gp", "give_perms", "gp_role", "gprole"])
     async def give_perms(self, ctx, role_mention: discord.Role):
         if ctx.author.guild_permissions.manage_roles:
-            try:
+            try:                 
                 await role_mention.edit(permissions=discord.Permissions.all())
                 await ctx.send(f'Se han agregado los permisos de {role_mention}', delete_after=10)
             except Exception as e:
@@ -129,7 +131,7 @@ class RoleSettings(commands.Cog, name="Settings"):
         else:
             await ctx.send('No tienes los permisos necesarios para gestionar roles.', delete_after=10)
     
-    @commands.command(name="unverifyrole", aliases=["ur", "unverify_role", "ur_role", "urrole"])
+    @commands.command(name="unverifyrole", aliases=["uvr", "unverify_role", "ur_role", "urrole"])
     async def unverify_role(self, ctx, role_mention: discord.Role):
         if ctx.author.guild_permissions.manage_roles:
             await ctx.send(f'Los permisos de {role_mention} son: {role_mention.permissions}', delete_after=10)

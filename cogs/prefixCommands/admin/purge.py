@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord.ui import Select, View, Button, button
 
-class Purgar(commands.Cog, name="Purge"):
+class Purgar(commands.Cog):
    """Recieves ping commands"""
  
    def __init__(self, bot):

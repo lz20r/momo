@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from discord.ext import commands
   
-class Series(commands.Cog, name="Series de Anime"):
+class Series(commands.Cog,):
     def __init__(self, bot): 
         self.bot = bot
 

@@ -7,7 +7,7 @@ import os
 class DM(commands.Cog):
     def __init__(self, bot):
         self.bot = bot 
-        self.data_folder = "Momo Data/DM" 
+        self.data_folder = "Momo Data/MomoDM" 
         os.makedirs(self.data_folder, exist_ok=True)  # Crea la carpeta si no existe
         self.DM_file_path = os.path.join(self.data_folder, 'MomoDmMessages.json') 
         self.DM_file_path_channel_id = 1204357707210170378

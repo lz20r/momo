@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import random
 
-class Random(commands.Cog, name="Random"):
+class Random(commands.Cog):
    """Returns random results"""
    
    def __init__(self, bot):

@@ -10,7 +10,12 @@ class HelpView(View):
                 label='home', 
                 value='0', 
                 description='momo Home Page'
-            )
+            ),
+            discord.SelectOption(
+                label='home', 
+                value='1', 
+                description='anime Page'
+            )            
         ],
     )
     
@@ -21,7 +26,7 @@ class HelpView(View):
         if selected_value == "0":
             embed = discord.Embed(title="Categoría 1", description="Descripción de la categoría 1")
             await interaction.response.edit_message(embed=embed)
-        elif selected_value == "category2":
+        elif selected_value == "1":
             embed = discord.Embed(title="Categoría 2", description="Descripción de la categoría 2")
             await interaction.response.edit_message(embed=embed)
 
