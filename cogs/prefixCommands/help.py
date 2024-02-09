@@ -8,7 +8,7 @@ class HelpView(View):
         ctx = self.ctx 
         color_error = bot.color_error = 0x2b2d31
         color_pastel = bot.color_pastel = 0x2b2d31
-        prefix = prefix = await bot.get_prefix(ctx.message)
+        prefix = bot.get_prefix(ctx.message)
         
         @discord.ui.select(
             placeholder='Click for more of kira',

@@ -1,22 +1,12 @@
 import discord
-import sys
 import difflib
+from requests import delete 
 from discord.ext import commands 
 from discord.ext.commands import CommandNotFound
-from requests import delete 
-class CommandsError(commands.Cog):
 
+class CommandsError(commands.Cog): 
     def __init__(self, bot):
         self.bot = bot    
-    @commands.Cog.listener()
-    async def on_command(self, message):
-        """Log command execution"""
-        if message.author.bot:
-            return
-        user = message.author
-        msg = message.content
-        print(f'{user} said {msg}')
-
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error): 
@@ -38,9 +28,9 @@ class CommandsError(commands.Cog):
             closest_command = difflib.get_close_matches(command_name, available_commands, n=1)
             if closest_command:
                 suggestion = closest_command[0]
-                embed = discord.Embed(description=f"<:mtinfo:1158016372471771287>  Command `{command_name}` not found, try **{suggestion}**")
+                embed = discord.Embed(description=f"<:mtinfo:1158016372471771287>  Command `{command_name}` not found, try `{suggestion}`")
             else:
-                embed = discord.Embed(description=f"<:mtinfo:1158016372471771287>  Command `{command_name}` not found.")          
+                embed = discord.Embed(description=f"<:mtinfo:1158016372471771287>  Command `{command_name}` not found, try `{suggestion}`")          
             await ctx.send(embed=embed, delete_after=20)
         elif isinstance(error, discord.errors.HTTPException):
             error_message = str(error)
