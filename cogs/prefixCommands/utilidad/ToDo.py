@@ -75,5 +75,16 @@ class ToDo(commands.Cog):
             await ctx.send(f'Tarea marcada como completada.')
         else:
             await ctx.send('Número de tarea no válido.') 
+            
+    @commands.command(name='deltodo', aliases=["dtd"], help='Elimina una tarea de tu lista TODO por su número.')
+    async def delete_todo(self, ctx, task_number: int):
+        user_id = str(ctx.author.id)
+        if user_id in self.todos and 0 < task_number <= len(self.todos[user_id]['tasks']):
+            removed_task = self.todos[user_id]['tasks'].pop(task_number - 1)['task']
+            self.save_todos()
+            await ctx.send(f'Tarea eliminada: "{removed_task}"')
+        else:
+            await ctx.send('Número de tarea no válido.')
+
 async def setup(bot):
     await bot.add_cog(ToDo(bot))
