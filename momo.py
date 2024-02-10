@@ -10,28 +10,10 @@ from discord.ext import commands
 def get_prefix(): 
     return "m."   
 
-def self_prefix(): 
-    return "m."
-
 # Intents 
 intents = discord.Intents.all()    
-client = commands.Bot(command_prefix=get_prefix, self_prefix=self_prefix, intents=intents, help_command=None, status=discord.Status.idle)  
-
-@commands.Cog.listener()
-async def on_message(message): 
-    if message.content.startswith(client.user.mention):
-        user_prefixes = get_prefix(client, message)
-        user_id = str(message.author.id)   
-        user_prefix = ''.join(user_prefixes) if user_prefixes else None
-        if user_id not in get_prefix:
-            embed_hello = discord.Embed(title="", description=f"<:8_wngs:1200775867673104526> my prefix here is: `{user_prefix}`")
-            await message.reply(embed=embed_hello)
-        else:
-            embed = discord.Embed(title="", description=f"<:line:1194496410167549963> self prefix is: `{user_prefix}`")
-            await message.reply(embed=embed)
-            
-            
-
+client = commands.Bot(command_prefix=get_prefix(), intents=intents, help_command=None, status=discord.Status.idle)  
+      
 async def load_extensions(): 
     # Load Cogs
     for p in pathlib.Path("cogs").glob("**/*.py"):
