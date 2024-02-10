@@ -29,6 +29,7 @@ class Say(commands.Cog):
         data[user] = message  # Almacenar el mensaje del usuario
         await self.write_json(data)
         await ctx.send(f"{user}: {message}")
+        await ctx.message.delete()
 
     @commands.command()
     async def show(self, ctx):
