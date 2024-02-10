@@ -13,7 +13,8 @@ class Restart(commands.Cog):
         author_name = ctx.author.name
         if author_id not in allowed_ids:
             embed = discord.Embed(title="", description="<:mtinfo:1205861978594091109> You are not allowed to use the **restart** command!")
-            return await ctx.send(embed=embed, delete_after=10)
+            await ctx.send(embed=embed, delete_after=10)
+            return await ctx.message.delete()
         
         try:
             embed = discord.Embed(description=f"<:mtinfo:1205861978594091109> {author_name} is restarting Momo")
@@ -23,7 +24,7 @@ class Restart(commands.Cog):
             await self.bot.change_presence(status=discord.Status.dnd, activity=discord.Game(name=f"{self.bot.user.name} is getting Restarting by {author_name}..."))
             
             # Detener el bot
-            await asyncio.sleep(1)  
+            await asyncio.sleep(10)  
             await self.bot.close()
             
             # Cambiar el estado a "Online"
@@ -34,7 +35,6 @@ class Restart(commands.Cog):
              
         except Exception as e:
             print("Error durante el reinicio:", e)
-        await ctx.message.delete()
 
 async def setup(bot):
     await bot.add_cog(Restart(bot))
