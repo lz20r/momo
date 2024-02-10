@@ -5,7 +5,7 @@ class Silence(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command("silence" , aliases=["s"])
+    @commands.command(name="silence" , aliases=["s"])
     @commands.has_permissions(administrator=True)
     async def silence(self, ctx, member: discord.Member, *, reason=None):
         await member.move_to(None, reason=reason)
@@ -13,7 +13,7 @@ class Silence(commands.Cog):
         await member.send(f"Has sido silenciado por {ctx.author} por la razón: {reason}")
         await ctx.send(f"{ctx.author.mention} ha silenciado a {member.mention}.")
         
-    @commands.command("unsilence", aliases=["us"])
+    @commands.command(name="unsilence", aliases=["us"])
     @commands.has_permissions(administrator=True)
     async def unsilence(self, ctx, member: discord.Member):
         await member.move_to(None)
@@ -21,7 +21,7 @@ class Silence(commands.Cog):
         await ctx.send(f"{ctx.author.mention} ha desilenciado a {member.mention}.")
         await member.send(f"Has sido desilenciado por {ctx.author}.")
         
-    @commands.command("silenced", aliases=["ss"])
+    @commands.command(name="silenced", aliases=["ss"])
     @commands.has_permissions(administrator=True)
     async def silenced(self, ctx):
         for member in ctx.guild.members:
@@ -31,7 +31,7 @@ class Silence(commands.Cog):
         await ctx.send(f"{ctx.author.mention} ha silenciado todos los miembros.")
         await ctx.send(f"{ctx.author.mention} ha desilenciado todos los miembros.")
         
-    @commands.command("unsilenced", aliases=["uss"])
+    @commands.command(name="unsilenced", aliases=["uss"])
     @commands.has_permissions(administrator=True)
     async def unsilenced(self, ctx):
         for member in ctx.guild.members:

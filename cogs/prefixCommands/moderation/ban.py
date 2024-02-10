@@ -5,9 +5,9 @@ class Ban(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command('ban', aliases=['b'])
+    @commands.command(name='ban', aliases=['b'])
     @commands.has_permissions(ban_members=True)    
-    async def ban(ctx, member: discord.Member, *, reason=None):
+    async def ban(self, ctx, member: discord.Member, *, reason=None):
         # Intenta banear al miembro
         try:
             await member.ban(reason=reason)
@@ -21,9 +21,9 @@ class Ban(commands.Cog):
             await ctx.send(f"No fue posible banear a {member.mention}. Error: {e}") 
 
   
-    @commands.command('unban', aliases=['ub'])
-    @commands.has_permissions(unban_members=True)
-    async def unban(ctx, *, member):
+    @commands.command(name='unban', aliases=['ub'])
+    @commands.has_permissions(ban_members=True)
+    async def unban(self, ctx, *, member):
         banned_users = await ctx.guild.bans()
         member_name, member_discriminator = member.split('#')
 
