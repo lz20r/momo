@@ -17,7 +17,7 @@ class Purgar(commands.Cog):
         if amount is None:
             embed = discord.Embed( 
             description=
-            f"<:mtinfo:1158016372471771287> **Executing** `{ctx.command.qualified_name}` command\n\n"
+            f"<:mtinfo:1205861978594091109> **Executing** `{ctx.command.qualified_name}` command\n\n"
             f"**This command can delete a certain amount of messages sent on that channel**\n```Syntax: momoclear  <number message>\nExample: momoclear 100```")
             await ctx.send(embed=embed, delete_after=10)
             return
@@ -32,7 +32,7 @@ class Purgar(commands.Cog):
                 
                 embed = discord.Embed(
                 description=
-                f"<:mtinfo:1158016372471771287> **Executing** `{ctx.command.qualified_name}` command\n\n"
+                f"<:mtinfo:1205861978594091109> **Executing** `{ctx.command.qualified_name}` command\n\n"
                 f"{ctx.command.qualified_name} **{messages_deleted}** messages.")
                 return await ctx.send(embed=embed, delete_after=10)    
             else :
@@ -52,7 +52,7 @@ class Purgar(commands.Cog):
                 
                 embed = discord.Embed(
                 description=
-                f"<:mtinfo:1158016372471771287> **Executing** `{ctx.command.qualified_name}` command\n\n"
+                f"<:mtinfo:1205861978594091109> **Executing** `{ctx.command.qualified_name}` command\n\n"
                 f"{ctx.command.qualified_name} **{messages_deleted}** messages.")
                 return await ctx.send(embed=embed, delete_after=10)    
             else :
@@ -65,7 +65,7 @@ class Purgar(commands.Cog):
 
         embed = discord.Embed(
             description=
-            f"<:mtinfo:1158016372471771287> **Executing** `{ctx.command.qualified_name}` command\n\n"
+            f"<:mtinfo:1205861978594091109> **Executing** `{ctx.command.qualified_name}` command\n\n"
             f"{ctx.author.mention} Deleted **{len(deleted_messages)}** messages.")
         return await ctx.send(embed=embed, delete_after=5)
     

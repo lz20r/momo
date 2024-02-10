@@ -17,11 +17,11 @@ class Restart(commands.Cog):
         author_id = ctx.author.id 
         author_name = ctx.author.name
         if author_id not in allowed_ids:
-            embed = discord.Embed(title="", description="You are not allowed to use the **restart** command!", delete_after=10)
-            return await ctx.send(embed=embed)
+            embed = discord.Embed(title="", description="<:mtinfo:1205861978594091109> You are not allowed to use the **restart** command!")
+            return await ctx.send(embed=embed, delete_after=10)
         try:
-            embed = discord.Embed(title=" ", description=f"{author_name} is restarting Momo", delete_after=10)
-            await ctx.send(embed=embed)
+            embed = discord.Embed(description=f"<:mtinfo:1205861978594091109> {author_name} is restarting Momo")
+            await ctx.send(embed=embed, delete_after=10)
             await self.bot.close()
         except Exception as e:
             pass
