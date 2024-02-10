@@ -1,11 +1,6 @@
+import asyncio
 import discord
-import sys
-import difflib
-import requests
 from discord.ext import commands 
-from discord.ext.commands import CommandNotFound
-import discord as prefix
-from discord.ui import Select, View, Button, button
 
 class Restart(commands.Cog):
     def __init__(self, bot):
@@ -19,12 +14,27 @@ class Restart(commands.Cog):
         if author_id not in allowed_ids:
             embed = discord.Embed(title="", description="<:mtinfo:1205861978594091109> You are not allowed to use the **restart** command!")
             return await ctx.send(embed=embed, delete_after=10)
+        
         try:
             embed = discord.Embed(description=f"<:mtinfo:1205861978594091109> {author_name} is restarting Momo")
             await ctx.send(embed=embed, delete_after=10)
+            
+            # Cambiar el estado a "Reiniciando..."
+            await self.bot.change_presence(status=discord.Status.dnd, activity=discord.Game(name=f"{self.bot.user.name} is getting Restarting by {author_name}..."))
+            
+            # Detener el bot
+            await asyncio.sleep(1)  
             await self.bot.close()
+            
+            # Cambiar el estado a "Online"
+            await self.bot.change_presence(status=discord.Status.idle)
+            
+            embed = discord.Embed(description=f"<:mtinfo:1205861978594091109> {author_name} restarted {self.bot.user.name}")
+            await ctx.send(embed=embed)
+             
         except Exception as e:
-            pass
+            print("Error durante el reinicio:", e)
+        await ctx.message.delete()
 
 async def setup(bot):
     await bot.add_cog(Restart(bot))
