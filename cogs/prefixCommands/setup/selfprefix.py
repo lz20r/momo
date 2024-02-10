@@ -33,11 +33,5 @@ class SelfPrefix(commands.Cog):
         await self.write_json(self.prefixes)
         await ctx.send(f"El prefijo ha sido actualizado a: {new_prefix}")
 
-    async def get_prefix(self, bot, message):
-        guild_id = str(message.guild.id)
-        return self.prefixes.get(guild_id, "!")  # Prefijo predeterminado si no se encuentra uno personalizado
-
-bot = commands.Bot(command_prefix=commands.AutoShardedBot.get_prefix)  # Usamos una función para obtener el prefijo
-
 async def setup(bot):
     await bot.add_cog(SelfPrefix(bot)) 

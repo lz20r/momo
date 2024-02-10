@@ -14,12 +14,13 @@ class Restart(commands.Cog):
     @commands.command(name="restart", aliases=["reset", "r"])
     async def restart(self, ctx):
         allowed_ids = [298704465178001418, 1033160523044376616]
-        author_id = ctx.author.id
+        author_id = ctx.author.id 
+        author_name = ctx.author.name
         if author_id not in allowed_ids:
-            embed = discord.Embed(title="", description="You are not allowed to use the **restart** command!")
+            embed = discord.Embed(title="", description="You are not allowed to use the **restart** command!", delete_after=10)
             return await ctx.send(embed=embed)
         try:
-            embed = discord.Embed(title=" ", description=f"the bot was restarted and was freed from the space that was running in the folder.")
+            embed = discord.Embed(title=" ", description=f"{author_name} is restarting Momo", delete_after=10)
             await ctx.send(embed=embed)
             await self.bot.close()
         except Exception as e:

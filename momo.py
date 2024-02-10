@@ -7,16 +7,15 @@ from httpx import get
 from dotenv import load_dotenv 
 from discord.ext import commands
 
-
 def get_prefix(): 
-    return "m." 
+    return "m."   
 
 def self_prefix(): 
     return "m."
 
 # Intents 
 intents = discord.Intents.all()    
-client = commands.Bot(command_prefix=get_prefix, command_self_prefix=self_prefix, intents=intents, help_command=None, status=discord.Status.dnd)  
+client = commands.Bot(command_prefix=get_prefix, self_prefix=self_prefix, intents=intents, help_command=None, status=discord.Status.idle)  
 
 @commands.Cog.listener()
 async def on_message(message): 
