@@ -5,7 +5,7 @@ class Silence(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command(name="silence" , aliases=["s"])
+    @commands.command(name="silence" , aliases=["sil"])
     @commands.has_permissions(administrator=True)
     async def silence(self, ctx, member: discord.Member, *, reason=None):
         await member.move_to(None, reason=reason)
@@ -21,7 +21,7 @@ class Silence(commands.Cog):
         await ctx.send(f"{ctx.author.mention} ha desilenciado a {member.mention}.")
         await member.send(f"Has sido desilenciado por {ctx.author}.")
         
-    @commands.command(name="silenced", aliases=["ss"])
+    @commands.command(name="silenced", aliases=["sile"])
     @commands.has_permissions(administrator=True)
     async def silenced(self, ctx):
         for member in ctx.guild.members:
