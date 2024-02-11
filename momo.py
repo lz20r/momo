@@ -6,10 +6,13 @@ import discord
 from httpx import get   
 from dotenv import load_dotenv 
 from discord.ext import commands
+from cogs.prefixCommands.economy.economyutils import EconomyUtils
 
 def get_prefix(): 
     return "m."   
- 
+
+def load_dotenv():
+    EconomyUtils.load_dotenv()
 
 # Intents 
 intents = discord.Intents.all()    

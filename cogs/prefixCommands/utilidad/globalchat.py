@@ -4,6 +4,7 @@ from sys import prefix
 import discord
 from discord.ext import commands
 
+
 class GlobalChat():
     def __init__(self, bot, ctx):
         self.bot = bot
