@@ -9,10 +9,7 @@ from discord.ext import commands
 from cogs.prefixCommands.economy.economyutils import EconomyUtils
 
 def get_prefix(): 
-    return "m."   
-
-def load_dotenv():
-    EconomyUtils.load_dotenv()
+    return "m."    
 
 # Intents 
 intents = discord.Intents.all()    
