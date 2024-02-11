@@ -9,6 +9,7 @@ from discord.ext import commands
 
 def get_prefix(): 
     return "m."   
+ 
 
 # Intents 
 intents = discord.Intents.all()    
