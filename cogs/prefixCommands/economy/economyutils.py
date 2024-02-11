@@ -3,7 +3,6 @@ import json
 import pathlib
 from discord.ext import commands 
 
-
 class EconomyUtils(commands.Cog):
     
     def __init__(self, bot):

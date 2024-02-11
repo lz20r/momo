@@ -46,14 +46,14 @@ class GlobalChat():
                     global_chat_config = load_global_chat_config()
                     global_chat_config[str(ctx.guild.id)] = channel_id
                     save_global_chat_config(global_chat_config)
-                    embed = discord.Embed(description=f'<:launtedcorrect:1203120035921399908> **successfully** chat global set to <#{channel_id}>.')
+                    embed = discord.Embed(description=f'<:momocorrect:1206016202745454613>  **successfully** chat global set to <#{channel_id}>.')
                     await ctx.send(embed=embed)
                 elif action == "remove":
                     global_chat_config = load_global_chat_config()
                     if str(ctx.guild.id) in global_chat_config:
                         del global_chat_config[str(ctx.guild.id)]
                         save_global_chat_config(global_chat_config)
-                        embed = discord.Embed(description=f'<:launtedcorrect:1203120035921399908> **successfully** chat global removed.')
+                        embed = discord.Embed(description=f'<:momocorrect:1206016202745454613>  **successfully** chat global removed.')
                         await ctx.send(embed=embed)
                     else:
                         embed = discord.Embed(description=f'<:launted:1203119545213128735> **chat global** is not configured.')
