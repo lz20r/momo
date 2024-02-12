@@ -237,7 +237,7 @@ class Logging(commands.Cog):
     async def on_bulk_message_delete(self, messages):
         if self.logs_enabled:
             embed = discord.Embed(
-                title="Bulk Message Deleted",
+                title=f"Bulk Message Deleted",
                 color=self.color_pastel
             )
             embed.add_field(name="Server", value=messages[0].guild.name)

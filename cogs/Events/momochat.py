@@ -1,3 +1,4 @@
+from errno import EMEDIUMTYPE
 import http
 import os
 import json
@@ -45,20 +46,36 @@ class GlobalChat(commands.Cog):
 
         if action == "set":
             if channel is None:
-                await ctx.send("Please specify a channel to set for Momo Global Chat.")
+                embed = discord.Embed(  
+                    description="Please specify a channel to set for Momo Global Chat.\n"
+                            f"```Momo Usage: {momousersprefix}mgchat set <channel>\n"
+                            f"Momo Example: {momousersprefix}mgchat set #channel```"
+                )
+                await ctx.send(embed=embed)
                 return
 
             self.globalchat[str(ctx.guild.id)] = channel.id
             self.savemomoglobalchat()
-            await ctx.send(f"Successfully set {channel.mention} as the Momo Global Chat channel.")
+            embed = discord.Embed( 
+                description=f"Successfully set {channel.mention} as the Momo Global Chat channel." 
+            ) 
+            await ctx.send(embed=embed)
 
         elif action == "remove":
             if str(ctx.guild.id) in self.globalchat:
                 del self.globalchat[str(ctx.guild.id)]
                 self.savemomoglobalchat()
-                await ctx.send("Momo Global Chat channel removed successfully.")
+                embed = discord.Embed( 
+                    description=f"Successfully removed {channel.mention} as the Momo Global Chat channel." 
+                )    
+                await ctx.send(embed = embed)
             else:
-                await ctx.send("Momo Global Chat is not configured for this server.")
+                embed = discord.Embed(  
+                    description="Momo Global Chat is not configured yet try again\n"
+                            f"```Momo Usage: {momousersprefix}mgchat set <channel>\n"
+                            f"Momo Example: {momousersprefix}mgchat set #channel```"
+                )
+                await ctx.send(embed = embed)
 
         else:
             embed = discord.Embed(
@@ -73,25 +90,36 @@ class GlobalChat(commands.Cog):
             
     @commands.Cog.listener()
     async def on_message(self, message):
-        # Ignorar mensajes del propio bot o mensajes que no sean de canales de texto.
+        # Ignorar mensajes de bots y asegurarse de que el mensaje proviene de un canal de texto
         if message.author.bot or not isinstance(message.channel, discord.TextChannel):
             return
 
-        # Verificar si el canal del mensaje está en el chat global.
-        if str(message.guild.id) in self.globalchat and message.channel.id == self.globalchat[str(message.guild.id)]:
-            # Preparar el registro del mensaje para enviarlo a otros canales.
-            embed = discord.Embed(description=message.content, color=self.color_pastel)
-            embed.set_author(name=message.author.display_name, icon_url=message.author.avatar.url)
-            embed.set_footer(text=f"Server: {message.guild.name}")
-            
+        momoauthorname = message.author.name
+        momoauthoricon = message.author.avatar.url if message.author.avatar else discord.Embed.Empty
+        momoservername = message.guild.name
+        momoservericon = message.guild.icon.url if message.guild.icon else discord.Embed.Empty
+        momomessage = message.content  # Asegúrate de usar .content para obtener el texto del mensaje
+        momochannel = message.channel
+        momoguildid = message.guild.id
 
-            # Recorrer todos los canales configurados en el chat global y enviar el mensaje.
+        if str(momoguildid) in self.globalchat and message.channel.id == self.globalchat[str(momoguildid)]:
+            # Construir el mensaje y el embed
+            message_content = f"<:momostarw:1206266007090364486> Message: {momomessage}"
+            embed = discord.Embed(description=message_content, color=self.color_pastel)
+            embed.set_author(name=momoauthorname, icon_url=momoauthoricon)
+            embed.set_footer(text=f"{momoservername}", icon_url=momoservericon)
+            embed.set_thumbnail(url=momoauthoricon)
+
+            # Eliminar el mensaje original para evitar duplicaciones
+            await message.delete()
+
+            # Enviar el embed a todos los canales configurados, excepto al de origen
             for guild_id, channel_id in self.globalchat.items():
-                # Evitar enviar el mensaje al mismo canal de origen.
-                if guild_id != str(message.guild.id):
+                if guild_id != str(momoguildid):
                     target_channel = self.bot.get_channel(int(channel_id))
                     if target_channel:
+                        # Enviar el embed creado al canal objetivo
                         await target_channel.send(embed=embed)
-                            
+
 async def setup(bot):
     await bot.add_cog(GlobalChat(bot))
