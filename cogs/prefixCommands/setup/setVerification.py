@@ -1,28 +1,47 @@
 import io
-import os
+import os 
 import random
 import discord
 from discord.ext import commands
 from discord.ui import View, Button
+from discord.enums import ButtonStyle
 from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip
+
+class VerificationView(View):
+    def __init__(self):
+        super().__init__()
+        self.add_item(Button(style=discord.ButtonStyle.blurple, label="Verify"))
+
+    @discord.ui.button(label="Verify", style=ButtonStyle.blurple , emoji="<:cinnaexcited:1205894714679885895>")
+    async def verify_button(self, button: discord.ui.Button, interaction: discord.Interaction): 
+        button.emoji = "<:cinnaexcited:1205894714679885895>" 
+        await interaction.response.send_message(f"Verified by {interaction.user.mention}!", ephemeral=True) 
 
 class Verification(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.verification_process = {}
-        self.gif_dir = "./animes.txt"
+        self.gif_dir = "animes.txt"
         self.role_id = 1202058820361125888
         self.new_role_id = 1202241653247836180
+        
+        try:
+            with open(self.gif_dir, 'r') as f:
+                self.gif_dir = f.read()
+        except FileNotFoundError as e:
+            print(f"Error: ```{e}```")
+            
 
     def get_random_anime_gif(self):
         gifs = os.listdir(self.gif_dir)
         gif_name = random.choice(gifs)
         return os.path.join(self.gif_dir, gif_name)
 
+
     def generate_captcha_gif(self):
         anime_gif_path = self.get_random_anime_gif()
         anime_clip = VideoFileClip(anime_gif_path)
-        captcha_text = ''.join(random.choices('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890*+-.!"·$%&//()=¿?^¡!;,', k=6))
+        captcha_text = ''.join(random.choices('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', k=6))
         fontsize = min(anime_clip.size) // 10
         text_clip = TextClip(captcha_text, fontsize=fontsize, color='white', method='caption', size=anime_clip.size)
         text_clip = text_clip.set_position(('center', 'center')).set_duration(anime_clip.duration)
@@ -30,10 +49,10 @@ class Verification(commands.Cog):
         gif_byte_array = io.BytesIO()
         composite_clip.write_gif(gif_byte_array, fps=anime_clip.fps)
         gif_byte_array.seek(0)
-        return captcha_text, gif_byte_array
+        return captcha_text, gif_byte_array 
 
-    @commands.command()
-    async def setVerify(self, ctx):
+    @commands.command(name="setVerify", aliases=["sv"])
+    async def setVerify(self, ctx): 
         if ctx.author.id in self.verification_process:
             await ctx.send("You already have a verification process in progress.", ephemeral=True)
             return
@@ -43,14 +62,16 @@ class Verification(commands.Cog):
         # Crear el mensaje embed
         embed = discord.Embed(title="<:momostarw:1206266007090364486> Momo Verify Sytem", description=f"{ctx.author.mention}, fill the captcha below to verify your account.")
         embed.set_image(url="attachment://captcha.gif")  # Adjuntar el gif al mensaje embed
-
+        embed.set_footer(text="<:momostarw:1206266007090364486> Momo Verify Sytem")
+                
         # Enviar el mensaje embed con el gif y el botón de Momo Verify Sytem
         await ctx.send(embed=embed, file=discord.File("captcha.gif", "captcha.gif"), view=VerificationView())
 
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.id in self.verification_process:
-            if message.content == self.verification_process[message.author.id]:
+            captcha_text, _ = self.verification_process[message.author.id]  # Obtener el texto de verificación
+            if message.content == captcha_text:  # Verificar si el contenido del mensaje es igual al texto de verificación
                 del self.verification_process[message.author.id]
                 for role in message.author.roles:
                     if role.name != "members":
@@ -58,28 +79,18 @@ class Verification(commands.Cog):
                 role_id = self.new_role_id
                 role = message.guild.get_role(role_id)
                 await message.author.add_roles(role)
-                embed = discord.Embed(title="Momo Verify Sytem", description=f"<:cinnaexcited:1205894714679885895> {message.author.mention}: your account has been verified successfully, by {self.bot.user.mention}")
+                embed = discord.Embed(title="Momo Verify Sytem", description=f":cinnaexcited: {message.author.mention}: your account has been verified successfully, by {self.bot.user.mention}")
                 embed.set_footer(text="<:momostarw:1206266007090364486> Momo Verify Sytem")
+                print(f"{message.author} has verified their account.")
                 await message.channel.send(embed=embed)
             else:
-                embed = discord.Embed(title="Momo Verify Sytem", description=f"\<:cinnacry:1205894709944254514> you made an incorrect captcha, try again.  {self.bot.user.mention} will tell to the owner.")
+                embed = discord.Embed(title="Momo Verify Sytem", description=f"\:cinnacry: you made an incorrect captcha, try again.  {self.bot.user.mention} will tell to the owner.")
                 embed.set_footer(text="<:momostarw:1206266007090364486> Momo Verify Sytem")
-                await message.channel.send(embed=embed)
+                await message.channel.send(embed=embed)    
+                
 
 async def setup(bot):
     await bot.add_cog(Verification(bot))
-
-class VerificationView(View):
-    def __init__(self):
-        super().__init__()
-        self.add_item(Button(style=ButtonStyle.blue, label="Verify"))
-
-    @discord.ui.button(label="Verify", style=ButtonStyle.blue)
-    async def verify_button(self, button: discord.ui.Button, interaction: discord.Interaction): 
-        button.emoji = "<:cinnaexcited:1205894714679885895>"
-        await interaction.response.edit_message("Verified!", ephemeral=True)
-        
-
 
 
 '''

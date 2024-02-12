@@ -18,12 +18,12 @@ client = commands.Bot(command_prefix=get_prefix(), intents=intents, help_command
 async def load_extensions(): 
     # Load Cogs
     for p in pathlib.Path("cogs").glob("**/*.py"):
-        cog_name = p.as_posix()[:-3].replace("/", ".")
+        cog_name = p.as_posix()[:-3].replace("/", ".") 
         try: 
             await client.load_extension(cog_name)
-            #print(f"Loaded {cog_name}")
+            # print(f"Loaded {cog_name}")  
         except Exception as e:
-            print(f"Failed to load {cog_name}: {e}") 
+            print(f"Failed to load {cog_name}: {e}")  
 
 # Load Tokens 
 load_dotenv() 
