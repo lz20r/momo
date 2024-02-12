@@ -51,4 +51,4 @@ class DMNotification(commands.Cog):
                 await channel.send(f"Recibí un DM de {message.author.name} (ID: {message.author.id})")
 
 async def setup(bot):
-    await bot.add_cog(DMNotification(bot)
+    await bot.add_cog(DMNotification(bot))

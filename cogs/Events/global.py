@@ -1,15 +1,15 @@
-import discord
-from discord.ext import commands
 import os
 import re
 import json
+import discord
+from discord.ext import commands
 
-class GlobalChats(commands.Cog):
+class momochatEvent(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.globalchat_dir = 'Momo Data'
-        self.globalchat_file = os.path.join(self.globalchat_dir, 'globalchat.json')
-
+        self.globalchat_dir = 'Momo Data/Momo Global Chat'
+        self.globalchat_file = os.path.join(self.globalchat_dir, 'MomoGlobalchat.json')
+        
         if not os.path.exists(self.globalchat_dir):
             os.makedirs(self.globalchat_dir)
 
@@ -62,4 +62,4 @@ class GlobalChats(commands.Cog):
                 await message.delete()
 
 async def setup(bot):
-    await bot.add_cog(GlobalChats(bot))
+    await bot.add_cog(momochatEvent(bot))
