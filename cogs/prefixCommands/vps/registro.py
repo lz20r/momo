@@ -45,33 +45,3 @@ class Registro(commands.Cog, name="registro"):
         response = requests.post(self.pterodactyl_api_url, headers=headers, json=user_data)
   
         return response.json()  
-
-    def delete_pterodactyl_user(self, user_id):
-            delete_url = f'{self.pterodactyl_api_url}/{user_id}'
-
-            headers = {
-                "Accept": "application/json",
-                "Content-Type": "application/json",                
-                "Authorization": f"Bearer {self.pterodactyl_api_key}"
-            }
-
-            response = requests.delete(delete_url, headers=headers)
-
-            if response.status_code == 204:
-                return {"message": "Usuario eliminado con éxito."}
-            else:
-                return {"error": "Error al eliminar el usuario."}
-
-    @commands.command(name="unregistration", aliases=['unreg','unregist', 'ur'])
-    async def unregistration(self, ctx, user_id: int):
-        if ctx.channel.id != 1202155438679019580:
-            return  
-        
-        response = self.delete_pterodactyl_user(user_id)
-        if 'error' in response:
-            await ctx.send("Hubo un error al eliminar el usuario. Por favor, intenta nuevamente.")
-        else:
-            await ctx.send("Usuario eliminado con éxito de la API de Pterodactyl.")
-
-async def setup(bot):
-    await bot.add_cog(Registro(bot))
