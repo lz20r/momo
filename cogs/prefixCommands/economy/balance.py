@@ -16,5 +16,5 @@ class balance(commands.Cog):
         embed = discord.Embed(title="💰 Balance", description=f'Tu balance actual es: **{user_data["balance"]}** monedas.', color=0x00ff00)
         await ctx.send(embed=embed)
 
-def setup(bot):
-    bot.add_cog(balance(bot))
+async def setup(bot):
+    await bot.add_cog(balance(bot))
