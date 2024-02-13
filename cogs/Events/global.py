@@ -48,7 +48,7 @@ class momochatEvent(commands.Cog):
             embed.set_thumbnail(url=momoauthoricon) 
 
             momolinks = re.findall(r'https?://[^\s]+', message.content)
-
+ 
             momoimagelinks = [link for link in momolinks if re.search(r'\.(jpg|png|jpeg|gif)$', link)]
 
             if momoimagelinks:
