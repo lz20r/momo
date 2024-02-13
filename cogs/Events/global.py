@@ -1,27 +1,31 @@
 import os
 import re
 import json
+import time
+import timeit
 import discord
-from discord.ext import commands
+from datetime import datetime
+from discord.ext import commands 
+
 
 class momochatEvent(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.globalchat_dir = 'Momo Data/Momo Global Chat'
-        self.globalchat_file = os.path.join(self.globalchat_dir, 'MomoGlobalchat.json')
-        
-        if not os.path.exists(self.globalchat_dir):
-            os.makedirs(self.globalchat_dir)
+        self.momochatdir = 'Momo Data/Momo Global Chat'
+        self.momochatfile = os.path.join(self.momochatdir, 'MomoGlobalchat.json')
+        self.ahora = datetime.now().strftime("%d/%m %H:%M")
+        if not os.path.exists(self.momochatdir):
+            os.makedirs(self.momochatdir)
 
-    def load_global_chat_config(self):
-        if os.path.exists(self.globalchat_file):
-            with open(self.globalchat_file, "r") as f:
+    def loadmomochatconfig(self):
+        if os.path.exists(self.momochatfile):
+            with open(self.momochatfile, "r") as f:
                 return json.load(f)
         else:
             return {}
 
-    def save_global_chat_config(self, config):
-        with open(self.globalchat_file, "w") as f:
+    def savemomochatconfig(self, config):
+        with open(self.momochatfile, "w") as f:
             json.dump(config, f, indent=4)
 
     @commands.Cog.listener()
@@ -29,36 +33,40 @@ class momochatEvent(commands.Cog):
         if message.author == self.bot.user:
             return 
             
-        global_chat_config = self.load_global_chat_config()
-        message_channel_id = message.channel.id
+        momochatconfig = self.loadmomochatconfig()
+        momomessagechid = message.channel.id
 
-        if message_channel_id in global_chat_config.values():
-            author_name = message.author.name
-            icon_author = message.author.avatar.url if message.author.avatar else discord.Embed.Empty
-            server_name = message.guild.name
+        if momomessagechid in momochatconfig.values():
+            momoauthorname = message.author.name
+            momoauthoricon = message.author.avatar.url if message.author.avatar else discord.Embed.Empty
+            momoservername = message.guild.name
             server_icon = message.guild.icon.url if message.guild.icon else discord.Embed.Empty
-            embed = discord.Embed(title=f"{self.bot.user.name} chat.")
-            embed.set_author(name=author_name, icon_url=icon_author)
-            embed.set_footer(text=f'message sent in {server_name}', icon_url=f'{server_icon}')
-            embed.set_thumbnail(url=icon_author)
+            embed = discord.Embed(title=f"<:momostar:1206265916472692839> {self.bot.user.name}")
+            embed.set_author(name=momoauthorname, icon_url=momoauthoricon)
+            embed.set_footer(text=f'{momoservername}', icon_url=f'{server_icon}')
+            embed.timestamp = datetime.now()
+            embed.set_thumbnail(url=momoauthoricon) 
 
-            links = re.findall(r'https?://[^\s]+', message.content)
+            momolinks = re.findall(r'https?://[^\s]+', message.content)
 
-            image_links = [link for link in links if re.search(r'\.(jpg|png|jpeg|gif)$', link)]
+            momoimagelinks = [link for link in momolinks if re.search(r'\.(jpg|png|jpeg|gif)$', link)]
 
-            if image_links:
-                for image_link in image_links:
-                    embed.set_image(url=image_link)
-                    for channel_id in global_chat_config.values():
-                        global_channel = self.bot.get_channel(channel_id)
-                        if global_channel:
-                            await global_channel.send(embed=embed)
+            if momoimagelinks:
+                for momolink in momoimagelinks:
+                    embed.set_image(url=momolink)
+                    for momochannelid in momochatconfig.values():
+                        momoglobalchannel = self.bot.get_channel(momochannelid)
+                        if momoglobalchannel:
+                            await momoglobalchannel.send(embed=embed)
             else:
-                embed.description = f'content: {message.content}'
-                for channel_id in global_chat_config.values():
-                    global_channel = self.bot.get_channel(channel_id)
-                    if global_channel:
-                        await global_channel.send(embed=embed)
+                embed.description = f"""
+                <:momostar:1206265916472692839> {message.content} \n 
+                 <:momostar:1206265916472692839> <t:{1707845760}:R>
+                """ 
+                for momochannelid in momochatconfig.values():
+                    momoglobalchannel = self.bot.get_channel(momochannelid)
+                    if momoglobalchannel:
+                        await momoglobalchannel.send(embed=embed)
                 await message.delete()
 
 async def setup(bot):
