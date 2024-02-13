@@ -43,8 +43,8 @@ class Logs(commands.Cog):
             await self.handle_forbidden_error()
         except Exception as e:
             await self.send_error_message(e)
-
-    @commands.command(name="DeleteChannel", aliases=["DCH", "DlCh", "Dchannel"])
+            
+    @commands.command(name="DeleteChannel", aliases=["DCH", "DCh", "Dchannel"])
     @commands.has_permissions(administrator=True)
     async def delete_channel(self, channel: discord.TextChannel):
         try:
