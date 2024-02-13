@@ -45,3 +45,6 @@ class Registro(commands.Cog, name="registro"):
         response = requests.post(self.pterodactyl_api_url, headers=headers, json=user_data)
   
         return response.json()  
+        
+async def setup(bot):
+    await bot.add_cog(Registro(bot))
