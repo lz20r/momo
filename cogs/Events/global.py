@@ -61,7 +61,7 @@ class momochatEvent(commands.Cog):
             else:
                 embed.description = f"""
                 <:momostar:1206265916472692839> {message.content} \n 
-                <:momostar:1206265916472692839> <t:{1707845760}:R>
+                 <:momostar:1206265916472692839> <t:{1707845760}:R>
                 """ 
                 for momochannelid in momochatconfig.values():
                     momoglobalchannel = self.bot.get_channel(momochannelid)

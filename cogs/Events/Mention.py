@@ -1,8 +1,10 @@
+import re
+import os 
+import json
 import discord
 from discord.ext import commands
-import os 
 
-class MentionCog(commands.Cog):
+class Mention(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.globalchat_dir = 'Momo Data'
@@ -16,7 +18,7 @@ class MentionCog(commands.Cog):
             with open(self.globalchat_file, "r") as f:
                 return json.load(f)
         else:
-            return {}
+            return {} 
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -57,4 +59,4 @@ class MentionCog(commands.Cog):
                 await message.delete()
 
 async def setup(bot):
-    await bot.add_cog(MentionCog(bot))
+    await bot.add_cog(Mention(bot))

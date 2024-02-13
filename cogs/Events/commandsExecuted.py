@@ -8,7 +8,7 @@ class logs(commands.Cog):
         
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
-        channel_id = 1202160500243443742
+        channel_id = 1206515724848332830
         target_channel = self.bot.get_channel(channel_id)
 
         if target_channel:
@@ -27,7 +27,7 @@ class logs(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
-        channel_id = 1202717030248095815
+        channel_id = 1204154596864565259
         channel = self.bot.get_channel(channel_id)
         if channel:
             command_name = ctx.command.name
@@ -37,7 +37,7 @@ class logs(commands.Cog):
             channel_name = ctx.channel.mention if ctx.guild else 'Direct Message'
 
             user_prefix = await self.bot.get_prefix(ctx.message)
-
+ 
             embed = discord.Embed(
                 title=f'`Command Executed`',
                 description=f'Server: **{server_name}**\nChannel: **{channel_name}**\nUser: **{author_name}**\nUser ID: **{author_name_id}**\nCommand: **{command_name}**\nPrefix: **{user_prefix}**')
