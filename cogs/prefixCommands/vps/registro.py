@@ -1,22 +1,23 @@
 import os 
+import discord
 import requests
 from dotenv import load_dotenv 
 from discord.ext import commands
 
+from main import delete_messages
+
 load_dotenv() 
 MOMO_API_PTERODACTYL = os.getenv("MOMO_API_PTERODACTYL")    
 class Registro(commands.Cog, name="registro"): 
-    def __init__(self, bot):
+    def __init__(self, bot, ctx):
         self.bot = bot
         self.pterodactyl_api_url = 'https://panel.cinammon.es/api/application/users'
-        self.pterodactyl_api_key = MOMO_API_PTERODACTYL
-        
+        self.pterodactyl_api_key = MOMO_API_PTERODACTYL 
     @commands.command(name="registro", aliases=['reg','regist', 'cg'])
-    async def registration(self, ctx, email:str, username:str, first_name:str, last_name:str, password:str):
-        # 1202405777617191023
-        if ctx.channel.id != 1202155438679019580:
-            return
-            
+    async def registration(self, ctx, email:str, username:str, first_name:str, last_name:str, password:str): 
+        if ctx.channel.id != 1206755519789010955:
+            return 
+        
         user_data = {
             "email": email,
             "username": username,
@@ -24,16 +25,16 @@ class Registro(commands.Cog, name="registro"):
             "last_name": last_name,
             "password": password
         }
-        
         response = self.create_pterodactyl_user(user_data)
-        print(response)
-
-        if 'errors' in response:  
-            await ctx.send("Hubo un error al registrar el usuario. Por favor, intenta nuevamente.")
-            print(user_data["username"])
-            print(response["errors"])
+        
+        if 'errors' in response:   
+            embed = discord.Embed(title="Registration in Cinammon Hosting", description=f"""<:momowarn:1206682132311842878> {username} was not registered.\n
+                                  usage: ```Momo Usage: {ctx.prefix}registration <email> <username> <first name> <last name> <password>```\n""")
+            await ctx.send(embed=embed, delete_after=120)
         else:
-            await ctx.send(f"Usuario {username} registrado con éxito en el sistema.")
+            embed = discord.Embed(title="Registration of in Cinammon Hosting", description=f"<:momomoon:1206265862684672101> {username} was successfully registered.\n Thank you for trusting and registering in Cinammon Hosting.") 
+            embed.set_footer(text="Cinammon Hosting")
+            await ctx.send(embed=embed, delete_after=120)
 
     def create_pterodactyl_user(self, user_data):
         headers = {
@@ -44,34 +45,7 @@ class Registro(commands.Cog, name="registro"):
         
         response = requests.post(self.pterodactyl_api_url, headers=headers, json=user_data)
   
-        return response.json()  
-
-    def delete_pterodactyl_user(self, user_id):
-            delete_url = f'{self.pterodactyl_api_url}/{user_id}'
-
-            headers = {
-                "Accept": "application/json",
-                "Content-Type": "application/json",                
-                "Authorization": f"Bearer {self.pterodactyl_api_key}"
-            }
-
-            response = requests.delete(delete_url, headers=headers)
-
-            if response.status_code == 204:
-                return {"message": "Usuario eliminado con éxito."}
-            else:
-                return {"error": "Error al eliminar el usuario."}
-
-    @commands.command(name="unregistration", aliases=['unreg','unregist', 'ur'])
-    async def unregistration(self, ctx, user_id: int):
-        if ctx.channel.id != 1202155438679019580:
-            return  
-        
-        response = self.delete_pterodactyl_user(user_id)
-        if 'error' in response:
-            await ctx.send("Hubo un error al eliminar el usuario. Por favor, intenta nuevamente.")
-        else:
-            await ctx.send("Usuario eliminado con éxito de la API de Pterodactyl.")
-
+        return response.json()   
+    
 async def setup(bot):
-    await bot.add_cog(Registro(bot))
+    await bot.add_cog(Registro(bot)) 
