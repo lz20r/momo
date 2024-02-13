@@ -70,7 +70,11 @@ class Ready(commands.Cog):
         commands = len(self.bot.commands)
         cogs_data = [(x) for x in self.bot.cogs]
         commands_data = [(x.name) for x in self.bot.commands]
+        
+        print(f'Logged in as {self.bot.user.name} ({momoid})')
+        await self.change_avatar_loop()
 
+    '''
         print(f'\n\n------------------------------------------') 
         print(f'Logged in as {self.bot.user.name} ({momoid})') 
         print(f'{momo} status: {self.bot.status.name}')    
@@ -89,7 +93,8 @@ class Ready(commands.Cog):
         ], headers=["Cogs & Commands", "Data"], tablefmt="fancy_grid")
 
         print(table)  
-        await self.change_avatar_loop()
+    '''
+
         
     async def change_avatar_loop(self):
         while True:

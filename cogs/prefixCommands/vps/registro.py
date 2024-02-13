@@ -4,8 +4,6 @@ import requests
 from dotenv import load_dotenv 
 from discord.ext import commands
 
-from main import delete_messages
-
 load_dotenv() 
 MOMO_API_PTERODACTYL = os.getenv("MOMO_API_PTERODACTYL")    
 class Registro(commands.Cog, name="registro"): 
