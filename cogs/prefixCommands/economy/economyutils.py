@@ -98,7 +98,7 @@ class EconomyUtils(commands.Cog):
             os.rmdir(self.data_folder)
             
         return True
-    
+
 
 async def setup(bot):
     await bot.add_cog(EconomyUtils(bot))

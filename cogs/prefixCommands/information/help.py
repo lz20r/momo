@@ -12,7 +12,7 @@ class HelpView(View):
         self.bot = bot
 
     @discord.ui.select( 
-        placeholder="Choose a command",
+        placeholder="Click for Momo's Categories",
         options=[ 
             discord.SelectOption(label='home', value='0', description=f'momo Home Page', emoji='<:8_wngs:1200775867673104526>'),
             discord.SelectOption(label='admin', value='1', description=f'momo Admin Commands', emoji='<:00_bpentagram:1200775838094856304>'),            
@@ -34,16 +34,13 @@ class HelpView(View):
             embed = discord.Embed(
                 title=f"{momo} Home Page", 
                 description=f"""
-                > Momo's predefined prefix is `{momoprefix}`.
-                > You can use `{momoguildprefix}help <command>` to get more information about a command.
-                > Welcome to [{momo}](https://discord.gg/ezfkXgekw7)! Here you can find all the commands and features that {momo} has to offer.
-                ```bf\nSupport Server: https://discord.gg/ezfkXgekw7```
+                > <:Flechaheart:1203068677570830407> `{momo}`'s Categories in {momo}.
                 """)
             embed.set_thumbnail(url=thumbnail_url)
             embed.set_author(name=f"{self.bot.user.name}", icon_url=thumbnail_url)
             await interaction.response.edit_message(embed=embed)
 
-        if selected_value == "1":
+        if selected_value == "1": 
             thumbnail_url = self.bot.user.avatar.url
             embed = discord.Embed(
                 title=f"{momo} admin", 
