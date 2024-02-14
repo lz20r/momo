@@ -98,7 +98,7 @@ class Help(commands.Cog):
         thumbnail_url = self.bot.user.avatar.url
         embed = discord.Embed(
             title=f"{momo} Home Page", 
-            description=
+            description= 
             f""" 
             > <:Flechaheart:1203068677570830407> `{momo}`'s prefix is `{momoprefix}`.
             > <:Flechaheart:1203068677570830407> `{momoguildprefix}help <command>` to get more info about a command.
