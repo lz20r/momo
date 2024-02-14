@@ -6,11 +6,12 @@ class Status(commands.Cog):
     def __init__(self, bot):
         self.bot = bot 
         self.status = cycle([  
-            '💞・hosted in panel.cinammon.es', 
+            '💞・host panel.cinammon.es', 
             '💞・m.help to get information',
             '💞・{guild_count} servers',
-            '💞・{member_count} members',
             '💞・{channel_count} channels'
+            '💞・{member_count} members',
+            
         ]) 
         
     @tasks.loop(seconds=3.0)

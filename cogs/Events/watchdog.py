@@ -7,7 +7,7 @@ import asyncio
 class Files(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self._start_file_watcher()
+        self._start_file_watcher() 
 
     def _start_file_watcher(self):
         path_to_watch = '/home/container/momo.py'  # Actualiza esto a la ruta de tu archivo
@@ -17,8 +17,8 @@ class Files(commands.Cog):
         self.observer.start()
 
     async def _on_file_modified(self):
-        channel_id = tu_id_de_canal  # Reemplaza esto con el ID del canal donde quieres enviar las notificaciones
-        channel = self.bot.get_channel(1204154596864565259)
+        channel_id = 1206515306449870888  # Reemplaza esto con el ID del canal donde quieres enviar las notificaciones
+        channel = self.bot.get_channel(channel_id)
         if channel:
             await channel.send("El archivo ha sido modificado.")
 

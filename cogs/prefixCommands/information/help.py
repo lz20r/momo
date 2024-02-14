@@ -1,10 +1,9 @@
-from ast import Try
 import os 
 import discord
-from discord.ext import commands
+from ast import Try  
 from discord.utils import get 
+from discord.ext import commands
 from discord.ext.commands import CommandNotFound
-import discord as prefix
 from discord.ui import Select, View, Button, button
  
 class HelpView(View):
@@ -14,7 +13,7 @@ class HelpView(View):
 
     @discord.ui.select( 
         placeholder="Choose a command",
-        options=[
+        options=[ 
             discord.SelectOption(label='home', value='0', description=f'momo Home Page', emoji='<:8_wngs:1200775867673104526>'),
             discord.SelectOption(label='admin', value='1', description=f'momo Admin Commands', emoji='<:00_bpentagram:1200775838094856304>'),            
             discord.SelectOption(label='setup', value='2', description=f'momo Setup Commands', emoji='<:Bbutterfly:1200775841282523156>'),
@@ -97,7 +96,7 @@ class Help(commands.Cog):
         momoguildname = ctx.guild.name
         thumbnail_url = self.bot.user.avatar.url
         embed = discord.Embed(
-            title=f"{momo} Home Page", 
+            title=f"{momo} Home Page",  
             description= 
             f""" 
             > <:Flechaheart:1203068677570830407> `{momo}`'s prefix is `{momoprefix}`.
