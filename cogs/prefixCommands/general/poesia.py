@@ -1,5 +1,12 @@
 import discord
 from discord.ext import commands
+import random
+
+def pastel_color():
+    r = random.randint(180, 255)
+    g = random.randint(180, 255)
+    b = random.randint(180, 255)
+    return discord.Color.from_rgb(r, g, b)
 
 class Poesia(commands.Cog):
     def __init__(self, bot):
@@ -7,7 +14,7 @@ class Poesia(commands.Cog):
 
     @commands.command(name="poesia")
     async def send_poesia(self, ctx, *, args):
-        # Divide los argumentos en user_id y poesia
+        color = pastel_color()
         try:
             parts = args.split(maxsplit=1)
             user_id = int(parts[0])  # Intenta convertir la primera parte en un entero
@@ -27,8 +34,8 @@ class Poesia(commands.Cog):
             await ctx.send(f"Ocurrió un error al intentar obtener el usuario: {e}")
             return
 
-        embed = discord.Embed(title="Una Poesía para Ti", description=poesia, color=0x00ff00)
-        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+        embed = discord.Embed(title="Una Poesía para Ti", description=poesia, color=color)
+        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar.url)
         embed.set_footer(text="Poesía enviada desde el bot")
 
         try:
@@ -41,5 +48,3 @@ class Poesia(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(Poesia(bot))
-
-Command raised an exception: AttributeError: 'Member' object has no attribute 'avatar_url'

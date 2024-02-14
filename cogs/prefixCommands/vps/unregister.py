@@ -16,7 +16,7 @@ class Unregister(commands.Cog, name="registro"):
         if ctx.channel.id != 1206755519789010955:
             return
             
-        user_data = { 
+        user_data = {
             "email": email,
             "username": username,
             "first_name": first_name,

@@ -1,3 +1,4 @@
+
 import os
 import re
 import json
@@ -40,6 +41,8 @@ class momochatEvent(commands.Cog):
             momoauthorname = message.author.name
             momoauthoricon = message.author.avatar.url if message.author.avatar else discord.Embed.Empty
             momoservername = message.guild.name
+            created_at = message.created_at
+            formatted_created_at = discord.utils.format_dt(created_at, 'R')
             server_icon = message.guild.icon.url if message.guild.icon else discord.Embed.Empty
             embed = discord.Embed(title=f"<:momostar:1206265916472692839> {self.bot.user.name}")
             embed.set_author(name=momoauthorname, icon_url=momoauthoricon)
@@ -61,7 +64,7 @@ class momochatEvent(commands.Cog):
             else:
                 embed.description = f"""
                 <:momostar:1206265916472692839> {message.content} \n 
-                 <:momostar:1206265916472692839> <t:{1707845760}:R>
+                <:momostar:1206265916472692839> {formatted_created_at}
                 """ 
                 for momochannelid in momochatconfig.values():
                     momoglobalchannel = self.bot.get_channel(momochannelid)

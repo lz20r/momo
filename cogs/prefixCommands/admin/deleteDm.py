@@ -5,7 +5,7 @@ class DeleteDm(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="deleteDM", aliases=[Ddm], help="Elimina los mensajes del bot en el DM con el usuario.")
+    @commands.command(name="deleteDM", aliases=['Ddm'], help="Elimina los mensajes del bot en el DM con el usuario.")
     async def clear_dm(self, ctx):
         if isinstance(ctx.channel, discord.DMChannel):
             async for message in ctx.channel.history(limit=100):
@@ -15,5 +15,5 @@ class DeleteDm(commands.Cog):
         else:
             await ctx.send("Este comando solo funciona en DMs.", delete_after=5)
 
-def setup(bot):
-    bot.add_cog(DeleteDm(bot))
+async def setup(bot):
+    await bot.add_cog(DeleteDm(bot))

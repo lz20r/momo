@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-class MentionCog(commands.Cog):
+class Mention(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -9,8 +9,8 @@ class MentionCog(commands.Cog):
     async def on_message(self, message):
         if message.content.startswith(self.bot.user.mention):
             prefix = await self.bot.get_prefix(message)
-            embed_hello = discord.Embed(title="", description=f"<:mtinfo1:1205311004066451507> my prefix here is `{prefix}`")
+            embed_hello = discord.Embed(description=f"<a:MT_Penguin:1207211476331528192>hii little momos mu actual prefix is `{prefix}`")
             await message.reply(embed=embed_hello)
 
 async def setup(bot):
-    await bot.add_cog(MentionCog(bot))
+    await bot.add_cog(Mention(bot))

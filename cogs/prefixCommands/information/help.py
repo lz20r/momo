@@ -37,8 +37,8 @@ class HelpView(View):
                 description=f"""
                 > Momo's predefined prefix is `{momoprefix}`.
                 > You can use `{momoguildprefix}help <command>` to get more information about a command.
-                > Welcome to [{momo}] (https://discord.gg/ezfkXgekw7)! Here you can find all the commands and features that {momo} has to offer.
-                ```bf\nSupport Server: https://discord.gg/ezfkXgekw7!```
+                > Welcome to [{momo}](https://discord.gg/ezfkXgekw7)! Here you can find all the commands and features that {momo} has to offer.
+                ```bf\nSupport Server: https://discord.gg/ezfkXgekw7```
                 """)
             embed.set_thumbnail(url=thumbnail_url)
             embed.set_author(name=f"{self.bot.user.name}", icon_url=thumbnail_url)
