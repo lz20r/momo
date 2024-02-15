@@ -1,11 +1,16 @@
 import discord
 from discord.ext import commands
 
+def pastel_color():
+    r = random.randint(180, 255)
+    g = random.randint(180, 255)
+    b = random.randint(180, 255)
+    return discord.Color.from_rgb(r, g, b)
+
 class Logging(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.logs_enabled = False
-        self.color_pastel = 0xFFC0CB
         self.log_channel_id = 1202160434686201896    
 
     @commands.command(name="setLogs", aliases=["sl"])
@@ -36,7 +41,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="New Message",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=message.guild.name)
             embed.add_field(name="Canal", value=message.channel.mention)
@@ -53,7 +58,7 @@ class Logging(commands.Cog):
             if before.channel is None and after.channel is not None:
                 embed = discord.Embed(
                     title="Voice Channel Joined",
-                    color=self.color_pastel
+                    color=pastel_color()
                 )
                 embed.add_field(name="Server", value=member.guild.name)
                 embed.add_field(name="Voice Channel", value=after.channel.name)
@@ -66,7 +71,7 @@ class Logging(commands.Cog):
             if before.channel is not None and after.channel is None:
                 embed = discord.Embed(
                     title="Voice Channel Left",
-                    color=self.color_pastel
+                    color=pastel_color()
                 )
                 embed.add_field(name="Server", value=member.guild.name)
                 embed.add_field(name="Voice Channel", value="None")
@@ -83,7 +88,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="Message Deleted",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=message.guild.name)
             embed.add_field(name="Canal", value=message.channel.mention)
@@ -100,7 +105,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="Message Edited",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=before.guild.name)
             embed.add_field(name="Canal", value=before.channel.mention)
@@ -116,7 +121,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="Member Joined",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=member.guild.name)
             embed.add_field(name="User", value=member.mention)
@@ -129,7 +134,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="Member Left",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=member.guild.name)
             embed.add_field(name="User", value=member.mention)
@@ -143,7 +148,7 @@ class Logging(commands.Cog):
             if before.nick != after.nick:
                 embed = discord.Embed(
                     title="Nickname Changed",
-                    color=self.color_pastel
+                    color=pastel_color()
                 )
                 embed.add_field(name="Server", value=before.guild.name)
                 embed.add_field(name="User", value=before.mention)
@@ -156,7 +161,7 @@ class Logging(commands.Cog):
             if before.roles != after.roles:
                 embed = discord.Embed(
                     title="Role Changed",
-                    color=self.color_pastel
+                    color=pastel_color()
                 )
                 embed.add_field(name="Server", value=before.guild.name)
                 embed.add_field(name="User", value=before.mention)
@@ -171,7 +176,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="Role Created",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=role.guild.name)
             embed.add_field(name="Role", value=role.mention)
@@ -184,7 +189,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="Role Deleted",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=role.guild.name)
             embed.add_field(name="Role", value=role.mention)
@@ -197,7 +202,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="Role Updated",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=before.guild.name)
             embed.add_field(name="Role", value=before.mention)
@@ -212,7 +217,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="User Banned",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=guild.name)
             embed.add_field(name="User", value=user.mention)
@@ -225,7 +230,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="User Unbanned",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=guild.name)
             embed.add_field(name="User", value=user.mention)
@@ -238,7 +243,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title=f"Bulk Message Deleted",
-                color=self.color_pastel
+                color=pastel_color()
             )
             embed.add_field(name="Server", value=messages[0].guild.name)
             embed.add_field(name="Messages", value=len(messages))
@@ -251,7 +256,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="Restarted",
-                color=self.color_pastel
+                color=pastel_color()
             )
             await self.send_log_embed(embed)
             
@@ -260,7 +265,7 @@ class Logging(commands.Cog):
         if self.logs_enabled:
             embed = discord.Embed(
                 title="Shutdown",
-                color=self.color_pastel
+                color=pastel_color()
             )
             await self.send_log_embed(embed)
              

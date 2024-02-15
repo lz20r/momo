@@ -1,9 +1,10 @@
+from ast import Try
 import os 
 import discord
-from ast import Try  
-from discord.utils import get 
 from discord.ext import commands
+from discord.utils import get 
 from discord.ext.commands import CommandNotFound
+import discord as prefix
 from discord.ui import Select, View, Button, button
  
 class HelpView(View):
@@ -12,8 +13,8 @@ class HelpView(View):
         self.bot = bot
 
     @discord.ui.select( 
-        placeholder="Click for Momo's Categories",
-        options=[ 
+        placeholder="Choose a command",
+        options=[
             discord.SelectOption(label='home', value='0', description=f'momo Home Page', emoji='<:8_wngs:1200775867673104526>'),
             discord.SelectOption(label='admin', value='1', description=f'momo Admin Commands', emoji='<:00_bpentagram:1200775838094856304>'),            
             discord.SelectOption(label='setup', value='2', description=f'momo Setup Commands', emoji='<:Bbutterfly:1200775841282523156>'),
@@ -34,13 +35,16 @@ class HelpView(View):
             embed = discord.Embed(
                 title=f"{momo} Home Page", 
                 description=f"""
-                > <:Flechaheart:1203068677570830407> `{momo}`'s Categories in {momo}.
+                > Momo's predefined prefix is `{momoprefix}`.
+                > You can use `{momoguildprefix}help <command>` to get more information about a command.
+                > Welcome to [{momo}](https://discord.gg/ezfkXgekw7)! Here you can find all the commands and features that {momo} has to offer.
+                ```bf\nSupport Server: https://discord.gg/ezfkXgekw7```
                 """)
             embed.set_thumbnail(url=thumbnail_url)
             embed.set_author(name=f"{self.bot.user.name}", icon_url=thumbnail_url)
             await interaction.response.edit_message(embed=embed)
 
-        if selected_value == "1": 
+        if selected_value == "1":
             thumbnail_url = self.bot.user.avatar.url
             embed = discord.Embed(
                 title=f"{momo} admin", 
@@ -93,8 +97,8 @@ class Help(commands.Cog):
         momoguildname = ctx.guild.name
         thumbnail_url = self.bot.user.avatar.url
         embed = discord.Embed(
-            title=f"{momo} Home Page",  
-            description= 
+            title=f"{momo} Home Page", 
+            description=
             f""" 
             > <:Flechaheart:1203068677570830407> `{momo}`'s prefix is `{momoprefix}`.
             > <:Flechaheart:1203068677570830407> `{momoguildprefix}help <command>` to get more info about a command.
