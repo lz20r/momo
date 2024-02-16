@@ -17,7 +17,7 @@ class Withdraw(commands.Cog):
         self.economyutils.save_economy_data(user_data, user_id)
         return user_data
     
-    @commands.command(name="withdraw", aliases=["with"])
+    @commands.command(name="withdraw", aliases=["wd"])
     async def withdraw(self, ctx, amount: int):
         if amount <= 0:
             embed = discord.Embed(title="Error", description='Por favor, ingresa una cantidad válida.', color=0xff0000)
@@ -25,7 +25,7 @@ class Withdraw(commands.Cog):
             return
 
         user_id = str(ctx.author.id)
-        user_data = self.economyutils.load_economy_data(user_id)
+        user_data = self.load_economy_data(user_id)
         if user_data["balance"] >= amount:
             user_data["balance"] -= amount
             self.save_economy_data(user_data)
