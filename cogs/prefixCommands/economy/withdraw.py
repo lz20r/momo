@@ -2,12 +2,21 @@
 
 import discord
 from discord.ext import commands
-from .economyutils import load_economy_data, save_economy_data
+from .economyutils import EconomyUtils 
 
 class Withdraw(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
+        self.economyutils = EconomyUtils(bot)  
+        
+    def load_economy_data(self, user_id):
+        user_data = self.economyutils.load_economy_data(user_id)
+        return user_data
+    
+    def save_economy_data(self, user_data, user_id):
+        self.economyutils.save_economy_data(user_data, user_id)
+        return user_data
+    
     @commands.command(name="withdraw", aliases=["with"])
     async def withdraw(self, ctx, amount: int):
         if amount <= 0:
@@ -16,10 +25,10 @@ class Withdraw(commands.Cog):
             return
 
         user_id = str(ctx.author.id)
-        user_data = load_economy_data(user_id)
+        user_data = self.economyutils.load_economy_data(user_id)
         if user_data["balance"] >= amount:
             user_data["balance"] -= amount
-            save_economy_data(user_data)
+            self.save_economy_data(user_data)
             embed = discord.Embed(title="💸 Retiro", description=f'Has retirado **{amount}** monedas.', color=0x00ff00)
             await ctx.send(embed=embed)
         else:

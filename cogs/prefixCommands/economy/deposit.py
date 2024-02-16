@@ -1,13 +1,23 @@
 # deposit_cog.py
-
+import os
 import discord
 from discord.ext import commands
-from .economyutils import load_economy_data, save_economy_data
+from .economyutils import EconomyUtils
+
 
 class Deposit(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
+        self.economy_utils = EconomyUtils(bot)  
+        
+    def load_economy_data(self, user_id):
+        user_data = self.economy_utils.load_economy_data(user_id)
+        return user_data
+    
+    def save_economy_data(self, user_data, user_id):
+        self.economy_utils.save_economy_data(user_data, user_id)
+        return user_data
+        
     @commands.command(name="deposit", aliases=["dep"])
     async def deposit(self, ctx, amount: int):
         if amount <= 0:
@@ -16,9 +26,9 @@ class Deposit(commands.Cog):
             return
 
         user_id = str(ctx.author.id)
-        user_data = load_economy_data(user_id)
+        user_data = self.economy_utils.load_economy_data( user_id )
         user_data["balance"] += amount
-        save_economy_data(user_data)
+        self.save_economy_data(user_data)
         embed = discord.Embed(title="💸 Depósito", description=f'Has depositado **{amount}** monedas.', color=0x00ff00)
         await ctx.send(embed=embed)
 
