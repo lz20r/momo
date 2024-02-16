@@ -20,7 +20,8 @@ class HelpView(View):
             discord.SelectOption(label='setup', value='2', description=f'momo Setup Commands', emoji='<:Bbutterfly:1200775841282523156>'),
             discord.SelectOption(label='general', value='3', description=f'momo Everyone Commands', emoji='<a:zzaneutralstar4:1200775864242151436>'),
             discord.SelectOption(label='misc', value='4', description=f'momo Misc Commands', emoji='<:black_emodiamond:1200775844344377405>'),
-            discord.SelectOption(label='premium', value='5', description=f'momo Premium Commands', emoji='<:1911cashbagblack:1194495648842661918>'),
+            discord.SelectOption(label='economy', value='5', description=f'momo Economy Commands', emoji='<:1911cashbagblack:1194495648842661918>'),
+            discord.SelectOption(label='premium', value='6', description=f'momo Premium Commands', emoji='<:1911cashbagblack:1194495648842661918>'),
         ] 
     )
     async def select_callback(self, interaction, select):           
@@ -75,6 +76,16 @@ class HelpView(View):
                 description=f"```yaml\n```")
             embed.set_thumbnail(url=thumbnail_url)
             await interaction.response.edit_message(embed=embed)
+
+        if selected_value == "5":
+            thumbnail_url = self.bot.user.avatar.url
+            embed = discord.Embed(
+                title=f"{momo} economy <3", 
+                description=f"""```yaml\nbag             balance         buffs           buy             chop            claimcode       collect         craft           crime           daily           deposit         event           fish            gift            give            guide           iteminfo        leaderboard     market          mine            mix             nekodex         nekoshop        pet             profile         quest           rank            repair          sell            servershop      settings        share           shop            slots           storage         trade           use             withdraw        work            xmas           \n```""")
+
+            embed.set_thumbnail(url=thumbnail_url)
+            await interaction.response.edit_message(embed=embed)
+
  
         if selected_value == "6":
             thumbnail_url = self.bot.user.avatar.url
