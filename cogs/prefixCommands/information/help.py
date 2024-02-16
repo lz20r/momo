@@ -43,14 +43,14 @@ class HelpView(View):
             embed.set_thumbnail(url=thumbnail_url)
             embed.set_author(name=f"{self.bot.user.name}", icon_url=thumbnail_url)
             await interaction.response.edit_message(embed=embed)
-
+ 
         if selected_value == "1":
             thumbnail_url = self.bot.user.avatar.url
             embed = discord.Embed(
                 title=f"{momo} admin", 
-                description=f"```yaml\n```")
+                description=f"```yaml\n```") 
             embed.set_thumbnail(url=thumbnail_url)
-            await interaction.response.edit_message(embed=embed)
+            await interaction.response.edit_message(embed=embed) 
             
         if selected_value == "2":
             thumbnail_url = self.bot.user.avatar.url
