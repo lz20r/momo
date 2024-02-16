@@ -21,9 +21,9 @@ class Wolfram(commands.Cog):
             answer = next(res.results).text
             
             # Crea un embed con la respuesta
-            embed = discord.Embed(title="Wolfram Alpha Resultado", color=0x00ff00)
-            embed.add_field(name="Pregunta", value=query, inline=False)
-            embed.add_field(name="Respuesta", value=answer, inline=False)
+            embed = discord.Embed(title="Wolfram Alpha Resultado", color=0xFFD1DC)
+            embed.add_field(name="<:momomoon:1206265862684672101> Question", value=query, inline=False)
+            embed.add_field(name="<:momostar:1206265916472692839> Awnswer", value=answer, inline=False)
             
             # Añade el ícono de Wolfram Alpha al embed
             embed.set_thumbnail(url="https://www.wolframalpha.com/_next/static/images/share_3G6HuGr6.png")
