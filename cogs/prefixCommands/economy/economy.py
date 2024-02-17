@@ -26,18 +26,18 @@ class EconomySystem:
         self.cursor = self.mysql_connection.cursor()
 
     def register_user(self, user_id, guild_id, username):
-        if not self.user_exists(guild_id, user_id):
-            sql = "INSERT INTO users (guild_id, user_id, username, balance) VALUES (%s, %s, %s, %s)"
-            val = (guild_id, user_id, username, 0)  # Inicializa el balance a 0
+        if not self.user_exists(user_id, guild_id):
+            sql = "INSERT INTO users (user_id, guild_id, username, balance) VALUES (%s, %s, %s, %s)"
+            val = (user_id, guild_id, username, 0)  # Inicializa el balance a 0
             self.cursor.execute(sql, val)
             self.mysql_connection.commit()
         else:
             print("El usuario ya está registrado.")
             return
 
-    def user_exists(self, guild_id, user_id):
+    def user_exists(self, user_id, guild_id):
         sql = "SELECT COUNT(*) FROM users WHERE guild_id = %s AND user_id = %s"
-        val = (guild_id, user_id)
+        val = (user_id, guild_id)
         try:
             self.cursor.execute(sql, val)
             result = self.cursor.fetchone()
@@ -46,9 +46,9 @@ class EconomySystem:
             print("Error al ejecutar la consulta SQL:", err)
             return False
 
-    def get_balance(self, guild_id, user_id):
+    def get_balance(self, user_id, guild_id):
         sql = "SELECT balance FROM users WHERE guild_id = %s AND user_id = %s"
-        val = (guild_id, user_id)
+        val = (user_id, guild_id)
         try:
             self.cursor.execute(sql, val)
             result = self.cursor.fetchone()
@@ -57,15 +57,15 @@ class EconomySystem:
             print("Error al ejecutar la consulta SQL:", err)
             return None
 
-    def add_coins(self, guild_id, user_id, amount):
-        if self.user_exists(guild_id, user_id):
-            current_balance = self.get_balance(guild_id, user_id)
+    def add_coins(self, user_id, guild_id, amount):
+        if self.user_exists(user_id, guild_id):
+            current_balance = self.get_balance(user_id, guild_id)
             if current_balance is None:
                 print("No se pudo obtener el balance del usuario.")
                 return
             new_balance = current_balance + amount
             sql = "UPDATE users SET balance = %s WHERE guild_id = %s AND user_id = %s"
-            val = (new_balance, guild_id, user_id)
+            val = (new_balance, user_id, guild_id)
             try:
                 self.cursor.execute(sql, val)
                 self.mysql_connection.commit()
@@ -76,15 +76,15 @@ class EconomySystem:
             print("Usuario no encontrado.")
             return
 
-    def remove_coins(self, guild_id, user_id, amount):
-        if self.user_exists(guild_id, user_id):
-            current_balance = self.get_balance(guild_id, user_id)
+    def remove_coins(self, user_id, guild_id, amount):
+        if self.user_exists(user_id, guild_id):
+            current_balance = self.get_balance(user_id, guild_id)
             if current_balance is None:
                 print("No se pudo obtener el balance del usuario.")
                 return
             new_balance = max(current_balance - amount, 0)  # Ensure balance doesn't go negative
             sql = "UPDATE users SET balance = %s WHERE guild_id = %s AND user_id = %s"
-            val = (new_balance, guild_id, user_id)
+            val = (new_balance, user_id, guild_id)
             try:
                 self.cursor.execute(sql, val)
                 self.mysql_connection.commit()
@@ -109,7 +109,7 @@ class Economy(commands.Cog):
     async def balance(self, ctx): 
         user_id = str(ctx.author.id)
         guild_id = str(ctx.guild.id) 
-        user_balance = self.economy_system.get_balance(guild_id, user_id)
+        user_balance = self.economy_system.get_balance(user_id, guild_id)
         if user_balance is not None:
             embed = discord.Embed(title="Saldo", description=f"Tu saldo es de {user_balance} monedas.")
             embed.set_footer(text=f"{self.bot.user.name}'s Balance System")
@@ -141,7 +141,7 @@ class Economy(commands.Cog):
             await ctx.send(embed=embed)
             return
         else:
-            self.economy_system.add_coins(guild_id, user_id, amount)
+            self.economy_system.add_coins(user_id, guild_id, amount)
             embed = discord.Embed(title="Depósito", description=f"{user_name} en {guild_name}, has depositado {amount} monedas en tu cuenta.")
             embed.set_footer(text=f"{self.bot.user.name}'s Deposit System")
             embed.set_thumbnail(url=ctx.author.avatar.url)
@@ -153,7 +153,7 @@ class Economy(commands.Cog):
         guild_id = str(ctx.guild.id)
         user_name = str(ctx.author.name)
         guild_name = str(ctx.guild.name)
-        self.economy_system.remove_coins(guild_id, user_id, amount)
+        self.economy_system.remove_coins(user_id, guild_id, amount)
         embed = discord.Embed(title="Retiro", description=f"{user_name} at {guild_name} Has retirado {amount} monedas.") 
         embed.set_footer(text=f"{self.bot.user.name}'s Work System")
         embed.set_thumbnail(url=ctx.author.avatar.url)        
@@ -166,7 +166,7 @@ class Economy(commands.Cog):
         user_name = str(ctx.author.name)
         guild_name = str(ctx.guild.name)
         earnings = random.randint(10, 100)  
-        self.economy_system.add_coins(guild_id, user_id, earnings)
+        self.economy_system.add_coins(user_id, guild_id, earnings)
         embed = discord.Embed(title="Trabajo", description=f"{user_name} at {guild_name} Has trabajado y ganado {earnings} monedas.")
         embed.set_footer(text=f"{self.bot.user.name}'s Work System")
         embed.set_thumbnail(url=ctx.author.avatar.url)

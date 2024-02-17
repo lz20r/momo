@@ -18,7 +18,7 @@ class Files(commands.Cog):
 
     async def _on_file_modified(self):
         channel_id = tu_id_de_canal  # Reemplaza esto con el ID del canal donde quieres enviar las notificaciones
-        channel = self.bot.get_channel(1204154596864565259)
+        channel = self.bot.get_channel(1208426808614191106)
         if channel:
             await channel.send("El archivo ha sido modificado.")
 
