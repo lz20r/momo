@@ -28,11 +28,12 @@ class EconomySystem:
     def register_user(self, user_id, guild_id, username):
         if not self.user_exists(guild_id, user_id):
             sql = "INSERT INTO users (guild_id, user_id, username, balance) VALUES (%s, %s, %s, %s)"
-            val = (guild_id, user_id, username, 0)  # Nuevo usuario con balance inicial de 0
+            val = (guild_id, user_id, username, " ")  
             self.cursor.execute(sql, val)
             self.mysql_connection.commit()
         else:
             print("El usuario ya está registrado.")
+            return
 
     def user_exists(self, guild_id, user_id):
         sql = "SELECT COUNT(*) FROM users WHERE guild_id = %s AND user_id = %s"
@@ -67,8 +68,10 @@ class EconomySystem:
                 self.mysql_connection.commit()
             except mysql.connector.Error as err:
                 print("Error al ejecutar la consulta SQL:", err)
+                return
         else:
             print("Usuario no encontrado.")
+            return
 
     def remove_coins(self, guild_id, user_id, amount):
         if self.user_exists(guild_id, user_id):
@@ -81,8 +84,10 @@ class EconomySystem:
                 self.mysql_connection.commit()
             except mysql.connector.Error as err:
                 print("Error al ejecutar la consulta SQL:", err)
+                return
         else:
             print("Usuario no encontrado.")  
+            return
 
     def close(self):
         self.cursor.close()
@@ -93,9 +98,9 @@ class Economy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.economy_system = EconomySystem(bot)
-        self.max_deposit = 5000000
+        self.max_deposit = 10000000
 
-    @commands.command(name='saldo', aliases=['bal'])
+    @commands.command(name='saldo', aliases=['bal']) 
     async def balance(self, ctx): 
         user_id = str(ctx.author.id)
         guild_id = str(ctx.guild.id) 
@@ -112,8 +117,8 @@ class Economy(commands.Cog):
     async def deposit(self, ctx, amount: int):
         user_id = str(ctx.author.id)
         guild_id = str(ctx.guild.id) 
-        guild_name = ctx.guild.name
-        user_name = ctx.author.name
+        guild_name = str(ctx.guild.name)
+        user_name = str(ctx.author.name)
         
         if amount <= 0:
             embed = discord.Embed(title="Error", description=f"{user_name} en {guild_name}, por favor, introduce una cantidad válida para depositar.")
@@ -138,8 +143,8 @@ class Economy(commands.Cog):
     async def withdraw(self, ctx, amount: int):
         user_id = str(ctx.author.id)
         guild_id = str(ctx.guild.id)
-        user_name = ctx.author.name
-        guild_name = ctx.guild.name
+        user_name = str(ctx.author.name)
+        guild_name = str(ctx.guild.name)
         self.economy_system.remove_coins(guild_id, user_id, amount)
         embed = discord.Embed(title="Retiro", description=f"{user_name} at {guild_name} Has retirado {amount} monedas.") 
         embed.set_footer(text=f"{self.bot.user.name}'s Work System")
@@ -150,8 +155,8 @@ class Economy(commands.Cog):
     async def work(self, ctx):
         user_id = str(ctx.author.id)
         guild_id = str(ctx.guild.id)
-        user_name = ctx.author.name
-        guild_name = ctx.guild.name
+        user_name = str(ctx.author.name)
+        guild_name = str(ctx.guild.name)
         earnings = random.randint(10, 100)  
         self.economy_system.add_coins(guild_id, user_id, earnings)
         embed = discord.Embed(title="Trabajo", description=f"{user_name} at {guild_name} Has trabajado y ganado {earnings} monedas.")
@@ -160,5 +165,5 @@ class Economy(commands.Cog):
         await ctx.send(embed=embed)
 
 async def setup(bot):  
-    bot.max_deposit = 10000000,
+    bot.max_deposit = 10000000
     await bot.add_cog(Economy(bot))
