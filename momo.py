@@ -24,6 +24,9 @@ async def load_extensions():
         except Exception as e:
             print(f"Failed to load {cog_name}: {e}")  
 
+initial_extensions = [
+    'cogs.prefixCommands.economy'
+]
 # Load Tokens 
 load_dotenv() 
 token = os.getenv('MOMO_TOKEN') 
