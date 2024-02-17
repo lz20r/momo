@@ -116,7 +116,10 @@ class Economy(commands.Cog):
             embed.set_thumbnail(url=ctx.author.avatar.url)
             await ctx.send(embed=embed)
         else:
-            await ctx.send('No se encontró su saldo.')
+            embed = discord.Embed(title="Error", description=f"No se encontró su saldo.")
+            embed.set_footer(text=f"{self.bot.user.name}'s Balance System")
+            embed.set_thumbnail(url=ctx.author.avatar.url)
+            await ctx.send(embed=embed)
             
     @commands.command(name='depositar', aliases=['dep'])
     async def deposit(self, ctx, amount: int):
