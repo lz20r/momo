@@ -66,5 +66,5 @@ class APIWebhook(commands.Cog):
         if result.status_code != 204:
             print(f"Failed to send webhook for channel ID {channel_id}, status code: {result.status_code}")
 
-asyn def setup(bot):
+async def setup(bot):
     await bot.add_cog(APIWebhook(bot))
