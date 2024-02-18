@@ -2,6 +2,7 @@ import discord
 import difflib
 import inspect
 import random
+import traceback
 from discord.ext import commands 
 from discord.ext.commands import CommandNotFound
 
@@ -34,6 +35,7 @@ class CommandsError(commands.Cog):
             else:
                 embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> Command `{command_name}` not found, {ctx.author.mention}!", color=embed_color)          
             await ctx.send(embed=embed, delete_after=20)
+            
         elif isinstance(error, discord.errors.HTTPException):
             error_message = str(error)
             if 'Invalid Form Body In embeds.0.description: This field is required' in error_message:
@@ -47,11 +49,10 @@ class CommandsError(commands.Cog):
             await ctx.send(embed=embed, delete_after=20)
         elif isinstance(error, commands.CommandOnCooldown):
             embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> This command is on cooldown. Please try again in {error.retry_after:.2f} seconds, {ctx.author.mention}!", color=embed_color)
-            await ctx.send(embed=embed, delete_after=20)
+            await ctx.send(embed=embed, delete_after=20) 
         else:
-            # Get the line number where the error occurred
-            error_line = inspect.currentframe().f_back.f_lineno
-            embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> **Error at line {error_line}** executing `{ctx.command.qualified_name}` by {ctx.author.mention} ```{error}```", color=embed_color)
+            # Get the line number where the error occurred 
+            embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> **Error at executing** **`{ctx.command.qualified_name}`** by {ctx.author.mention} ```Usage: {ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}```", color=embed_color)
             await ctx.send(embed=embed, delete_after=120) 
 
 async def setup(bot):
