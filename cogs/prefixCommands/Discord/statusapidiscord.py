@@ -35,7 +35,7 @@ class APIWebhook(commands.Cog):
     @tasks.loop(minutes=60)  # Adjust the frequency of checks as needed
     async def api_check(self):
         if not self.webhook_urls:
-            print("No webhooks set. Skipping API check.")
+            await ctx.send("No webhooks set. Skipping API check.")
             return
 
         response = requests.get('https://discordstatus.com/api/v2/status.json')
