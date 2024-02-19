@@ -9,7 +9,6 @@ import mysql.connector
 import json
 from tabulate import tabulate
 from bs4 import BeautifulSoup
-from dotenv import load_dotenv
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 
@@ -96,6 +95,7 @@ class Ready(commands.Cog):
         print(table)  
     '''
 
+        
     async def change_avatar_loop(self):
         while True:
             await self.change_avatar()
