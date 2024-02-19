@@ -16,7 +16,8 @@ class EconomySystem(commands.Cog):
         # Verifica si el usuario ya existe y lo registra si no es así
         if not self.user_exists(user_id, guild_id):
             self.register_user(user_id, guild_id, username)
-            print(f"Nuevo usuario registrado: {username} (ID: {user_id}) en el servidor {guild_id}.")
+            guild_name = member.guild.name
+            print(f"Nuevo usuario registrado: {username} (ID: {user_id}) en el servidor {guild_name}(ID: {guild_id}).")
         else:
             print(f"El usuario {username} (ID: {user_id}) ya está registrado en el servidor {guild_id}.")
 
@@ -62,7 +63,13 @@ class EconomySystem(commands.Cog):
             self.mysql_connection.commit()
         else:
             print("User not found.")
-    
+            
+    def set_balance(self, user_id, guild_id, balance):
+        sql = "UPDATE users SET balance = %s WHERE user_id = %s AND guild_id = %s"
+        val = (balance, user_id, guild_id)
+        self.cursor.execute(sql, val)
+        self.mysql_connection.commit()
+             
     def cog_unload(self):
         self.cursor.close()
         # No cerramos la conexión aquí, ya que es manejada en otra parte del código

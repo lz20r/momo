@@ -52,7 +52,10 @@ class CommandsError(commands.Cog):
             await ctx.send(embed=embed, delete_after=20) 
         else:
             # Get the line number where the error occurred 
-            embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> **Error at executing** **`{ctx.command.qualified_name}`** by {ctx.author.mention} ```Usage: {ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}```", color=embed_color)
+            line = traceback.format_exception(type(error), error, error.__traceback__)[0].splitlines()[-1]
+            embed = discord.Embed(
+                title=f"<a:MT_warning:1208184660987875378> **Error at executing** **`{ctx.command.qualified_name}`**",
+                description=f"Executed by {ctx.author.mention}\n\n Usage: ```{ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}``` \n Error: ```{error}``` \n Line: ```{line}```", color=embed_color)
             await ctx.send(embed=embed, delete_after=120) 
 
 async def setup(bot):
