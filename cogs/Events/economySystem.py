@@ -62,12 +62,10 @@ class EconomySystem(commands.Cog):
             self.mysql_connection.commit()
         else:
             print("User not found.")
-             
+    
     def cog_unload(self):
         self.cursor.close()
         # No cerramos la conexión aquí, ya que es manejada en otra parte del código
- 
-    
-  
+
 async def setup(bot):
     await bot.add_cog(EconomySystem(bot))
