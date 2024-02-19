@@ -13,12 +13,12 @@ class Register(commands.Cog):
         self.pterodactyl_api_key = MOMO_API_PTERODACTYL
         
     @commands.command(name="register", aliases=['reg','regist', 'cg'])
-    async def registration(self, ctx, user_id:str, email:str, username:str, first_name:str, last_name:str, password:str): 
+    async def registration(self, ctx, IDdeseado:int, email:str, username:str, first_name:str, last_name:str, password:str): 
         if ctx.channel.id != 1208843557729869935:
             return 
         
         user_data = {
-            "user_id": user_id,
+            "id": IDdeseado,
             "email": email,
             "username": username,
             "first_name": first_name,
@@ -32,7 +32,7 @@ class Register(commands.Cog):
             embed.set_footer(text="Cinammon Hosting")
             embed.set_thumbnail(url=ctx.author.avatar.url)
             embed.description=f"""<:momostarw:1206266007090364486> {ctx.author.name}, **{username}** was registered with {self.bot.user.name}.\n"""  
-            embed.add_field(name="Cinammon Hosting user", value=f"```Information of {username}:\n -id: {user_id} \n -email: {email}\n -username: {username}\n -first name: {first_name}\n -last name: {last_name}\n -password: {password}```") 
+            embed.add_field(name="Cinammon Hosting user", value=f"```Information of {username}:\n -id: {IDdeseado} \n -email: {email}\n -username: {username}\n -first name: {first_name}\n -last name: {last_name}\n -password: {password}```") 
             await ctx.send(embed=embed, delete_after=120) 
         else:
             embed = discord.Embed(title="Registration in Cinammon Hosting", description=f"""<:momostarw:1206266007090364486> {ctx.author.name} **{username}** was successfully registered.\n Thank you for trusting and registering in Cinammon Hosting.""")
