@@ -1,3 +1,4 @@
+from email import message
 import discord
 import difflib
 import inspect
@@ -48,8 +49,9 @@ class CommandsError(commands.Cog):
             embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> You do not have permission to use this command, {ctx.author.mention}!", color=embed_color)
             await ctx.send(embed=embed, delete_after=20)
         elif isinstance(error, commands.CommandOnCooldown):
-            embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> This command is on cooldown. Please try again in {error.retry_after:.2f} seconds, {ctx.author.mention}!", color=embed_color)
-            await ctx.send(embed=embed, delete_after=20) 
+            wait_time_minutes = error.retry_after / 60  # Convert seconds to minutes
+            embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> This command is on cooldown. Please try again in {wait_time_minutes:.1f} minutes, {ctx.author.mention}!", color=embed_color)
+            await ctx.send(embed=embed, delete_after=20)
         else:
             # Get the line number where the error occurred 
             line = traceback.format_exception(type(error), error, error.__traceback__)[0].splitlines()[-1]
