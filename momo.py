@@ -32,7 +32,7 @@ token = os.getenv('MOMO_TOKEN')
 host=os.getenv('momohost')
 port=os.getenv('momoport')
 user=os.getenv('momouser') 
-password= os.getenv('momopassword')
+password="GHyZVJtn.SX98Uw1oftt=euL"
 database=os.getenv('momoname')
 # Load Mysql Connection  
 def initialize_mysql_connection():
