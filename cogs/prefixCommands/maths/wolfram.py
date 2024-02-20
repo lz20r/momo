@@ -4,10 +4,8 @@ import wolframalpha
 import os
 from dotenv import load_dotenv  # Importa load_dotenv
 
-# Carga las variables de entorno
-load_dotenv()
-wolframapi = os.getenv('MOMO_WOLFRAM_API')
-
+# Carga las variables de entorno 
+wolframapi = os.getenv('MOMO_WOLFRAM_API')   
 class Wolfram(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -24,20 +22,19 @@ class Wolfram(commands.Cog):
             embed = discord.Embed(title="Wolfram Alpha Resultado", color=0xFFD1DC)
             embed.add_field(name="<:momomoon:1206265862684672101> Question", value=query, inline=False)
             embed.add_field(name="<:momostar:1206265916472692839> Awnswer", value=answer, inline=False)
-            
-            # Añade el ícono de Wolfram Alpha al embed
-            embed.set_thumbnail(url="https://www.wolframalpha.com/_next/static/images/share_3G6HuGr6.png")
+            embed.set_footer(text=f"Sistema de Wolfram Alpha de {self.bot.user.display_name}")
+            embed.set_thumbnail(url="https://cdn.iconscout.com/icon/free/png-256/wolfram-alpha-2-569293.png")
 
             # Envía el embed en el canal
             await ctx.send(embed=embed)
 
         except StopIteration:
             embed = discord.Embed(title="Wolfram Alpha Resultado", description="Lo siento, no tengo una respuesta para eso.", color=0xFDB9C8)
-            embed.set_thumbnail(url="https://www.wolframalpha.com/_next/static/images/share_3G6HuGr6.png")
+            embed.set_thumbnail(url="https://cdn.iconscout.com/icon/free/png-256/wolfram-alpha-2-569293.png")
             await ctx.send(embed=embed)
         except Exception as e:
             embed = discord.Embed(title="Error", description=f"Ocurrió un error: {str(e)}", color=0xff0000)
-            embed.set_thumbnail(url="https://www.wolframalpha.com/_next/static/images/share_3G6HuGr6.png")
+            embed.set_thumbnail(url="https://cdn.iconscout.com/icon/free/png-256/wolfram-alpha-2-569293.png")
             await ctx.send(embed=embed)
 
 async def setup(bot):

@@ -28,6 +28,8 @@ async def load_extensions():
 load_dotenv() 
 token = os.getenv('MOMO_TOKEN') 
 
+wolframapi = os.getenv('MOMO_WOLFRAM_API') 
+
 # Load Mysql Connection Details 
 host=os.getenv('momohost')
 port=os.getenv('momoport')

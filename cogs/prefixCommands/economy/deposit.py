@@ -3,12 +3,12 @@ import discord
 from discord.ext import commands
 
 from cogs.Events.economySystem import EconomySystem
-
+from cogs.prefixCommands.economy.balance import Balance
 class Deposit(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.economy_system = EconomySystem(bot)
-        self.max_deposit = 1000  
+        self.max_deposit = 10000000
 
 
     @commands.command(name='depositar', aliases=['dep'])
@@ -44,5 +44,5 @@ class Deposit(commands.Cog):
         await ctx.send(embed=embed)
    
 async def setup(bot):  
-    bot.max_deposit = 10000000  # Debe ser un número, no una cadena
+    bot.max_deposit = 10000000  # Configura el monto máximo de depósito
     await bot.add_cog(Deposit(bot))

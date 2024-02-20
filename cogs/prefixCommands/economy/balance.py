@@ -1,5 +1,3 @@
-from math import e
-from os import times
 import discord  
 from discord.ext import commands 
 from cogs.Events.economySystem import EconomySystem 
@@ -9,37 +7,48 @@ class balanceView(discord.ui.View):
         self.bot = bot
         super().__init__(timeout=None)
         
-    @discord.ui.button(label="Deposit", style=discord.ButtonStyle.gray, custom_id="deposit")
+    @discord.ui.button(label="Deposit", style=discord.ButtonStyle.gray, custom_id="deposit", emoji="💰")
     async def on_deposit_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         user_id = str(interaction.user.id)
         guild_id = str(interaction.guild.id) 
         economy_system = EconomySystem(self.bot)
-        user_balance = economy_system.get_balance(user_id, guild_id)
-
+        user_balance = economy_system.get_balance(user_id, guild_id) 
+        max_balance = 1000  
+         
         if button.custom_id == "deposit":
-            if user_balance is not None:
-                embed = discord.Embed(title="Deposit", description=f"{interaction.user.mention} your balance is {user_balance}.")
+            if user_balance > max_balance:
+                embed = discord.Embed(description="ups, you already have the maximum balance you can have.")
                 await interaction.response.send_message(embed=embed, ephemeral=True)
+                return
+            if user_balance == 0:
+                embed = discord.Embed(title="Balance", description=f"{interaction.user}, you have deposited {user_balance} <:momocoins:1209537484153819189>")
+                embed.add_field(name="Coins", value=f"{user_balance}", inline=False)
+                embed.add_field(
+                    name="Momo Bank", 
+                    value=f"{user_balance}/{max_balance}",
+                    inline=False)
+                await interaction.response.send_message(embed=embed)
             else:
-                embed = discord.Embed(title="Information of Deposit", description="You don't have a balance. Use `{self.bot.command_prefix}deposit <amount>` or  `{self.bot.command_prefix}work` to get some coins.") 
-                await interaction.response.send_message(embed=embed, ephemeral=True)
+                embed = discord.Embed(title="Balance", description=f"{interaction.user}, you have deposited {user_balance} <:momocoins:1209537484153819189>")
+                embed.add_field(name="Coins", value=f"{user_balance}", inline=False)
+                embed.add_field(name="Banco", value=f"{user_balance}/{max_balance}", inline=False)
+                await interaction.response.send_message(embed=embed)
+       
                 
-    @discord.ui.button(label="Withdraw", style=discord.ButtonStyle.red, custom_id="withdraw")
+    @discord.ui.button(label="Withdraw", style=discord.ButtonStyle.gray, custom_id="withdraw", emoji="💸")
     async def on_withdraw_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         user_id = str(interaction.user.id)
         guild_id = str(interaction.guild.id) 
         economy_system = EconomySystem(self.bot)
-        user_balance = economy_system.get_balance(user_id, guild_id)
-
-        if button.custom_id == "withdraw":
-            if user_balance is not None:
-                embed = discord.Embed(title="Withdraw", description=f"{interaction.user.mention} you have withdrawn {user_balance}.")
-                embed.set_footer(text="Balance System") 
-                await interaction.response.send_message(embed=embed, ephemeral=True)
-            else:
-                embed = discord.Embed(title="Information of Withdraw", description="You don't have a balance. Use `{self.bot.command_prefix}deposit <amount>` or  `{self.bot.command_prefix}work` to get some coins.") 
-                await interaction.response.send_message(embed=embed, ephemeral=True) 
-                
+        user_balance = economy_system.get_balance(user_id, guild_id) 
+        
+        if user_balance is not None:
+            embed = discord.Embed( description=" you have withdrawn " + str(user_balance) + " coins.")
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+        else: 
+            embed = discord.Embed(title="Information of Withdraw", description="You don't have a balance. Momo will give you some coins if you work.")
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+            
 class Balance(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -53,29 +62,29 @@ class Balance(commands.Cog):
         user_name = str(ctx.author.name)
         user_tag = str(ctx.author)
         user_balance = self.economy_system.get_balance(user_id, guild_id)
-
+        self.max_balance =  user_balance
         View = balanceView(self.bot)
 
         if user_balance is not None:
-            embed = discord.Embed(title=f"Balance of {user_tag}", description=f"{user_name} having {user_balance} coins.")
-            embed.set_footer(text=f"{self.bot.user.name}'s Balance System")
-            embed.set_thumbnail(url=ctx.author.avatar.url)
+            embed = discord.Embed() 
+            embed.add_field(name="Coins", value=f"{user_balance}", inline=True) 
+            embed.add_field(name="Banco", value=f"{user_balance}/{self.max_balance}", inline=True)
+            embed.set_author(name=user_name, icon_url=ctx.author.display_avatar.url)
+
             await ctx.send(embed=embed, view=View)
-        elif user_balance == 0:
-            embed = discord.Embed(title=f"Balance of {user_tag}", description=f"{user_name} having {user_balance} coins.")
-            embed.set_footer(text=f"{self.bot.user.name}'s Balance System")
-            embed.set_thumbnail(url=ctx.author.avatar.url)
+        elif user_id == "None":
+            embed = discord.Embed(title="Information of Balance", description="You don't have a balance. Momo will give you some coins if you work.")
             await ctx.send(embed=embed, view=View)
         elif user_balance > self.max_balance:
-            embed = discord.Embed(title="Error", description=f"{user_name} en {guild_name}, no puedes tener más de {self.max_balance} monedas.")
-            embed.set_footer(text=f"{self.bot.user.name}'s Balance System")
-            embed.set_thumbnail(url=ctx.author.avatar.url)
+            embed = discord.Embed(title=f"Balance of {user_tag}",) 
+            embed.set_author(name=user_name, icon_url=ctx.author.display_avatar.url)
+            embed.add_field(name="Coins", value=f"{user_balance}", inline=True) 
+            embed.add_field(name="Banco", value=f"{user_balance}/{self.max_balance}", inline=True)
             await ctx.send(embed=embed, view=View)
         else:
-            embed = discord.Embed(title="Error", description=f"{user_name} en {guild_name}, no tienes ninguna moneda.")
-            embed.set_footer(text=f"{self.bot.user.name}'s Balance System")
-            embed.set_thumbnail(url=ctx.author.avatar.url)
+            embed = discord.Embed(title=f"Balance of {user_tag}",) 
+            embed.add_field(name="Coins", value=f"{user_balance}", inline=True)  
             await ctx.send(embed=embed, view=View)
  
-async def setup(bot):  
+async def setup(bot):   
     await bot.add_cog(Balance(bot))

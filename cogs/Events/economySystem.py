@@ -6,20 +6,9 @@ class EconomySystem(commands.Cog):
         self.bot = bot
         # Se asume que la conexión a la base de datos ya está establecida y es accesible a través de bot.mysql_connection
         self.mysql_connection = bot.mysql_connection
-        self.cursor = self.mysql_connection.cursor()
-
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        user_id = member.id
-        guild_id = member.guild.id
-        username = member.display_name
-        # Verifica si el usuario ya existe y lo registra si no es así
-        if not self.user_exists(user_id, guild_id):
-            self.register_user(user_id, guild_id, username)
-            print(f"Nuevo usuario registrado: {username} (ID: {user_id}) en el servidor {guild_id}.")
-        else:
-            print(f"El usuario {username} (ID: {user_id}) ya está registrado en el servidor {guild_id}.")
-
+        self.cursor = self.mysql_connection.cursor() 
+    
+    # Función para registrar un usuario
     def register_user(self, user_id, guild_id, username):
         sql = "INSERT INTO users (user_id, guild_id, username, balance) VALUES (%s, %s, %s, %s)"
         val = (user_id, guild_id, username, 0)  # Nuevo usuario con balance inicial de 0
@@ -32,7 +21,7 @@ class EconomySystem(commands.Cog):
         self.cursor.execute(sql, val)
         result = self.cursor.fetchone()
         return result[0] > 0 if result else False
-    
+
     def get_balance(self, user_id, guild_id):
         sql = "SELECT balance FROM users WHERE user_id = %s AND guild_id = %s"
         val = (user_id, guild_id)
@@ -51,7 +40,7 @@ class EconomySystem(commands.Cog):
         else:
             self.register_user(user_id, guild_id, 0)  # Si el usuario no existe, regístralo primero
             self.add_coins(user_id, guild_id, amount)  # Llamar de nuevo a esta función
-            
+              
     def remove_coins(self, user_id, guild_id, amount):
         current_balance = self.get_balance(user_id, guild_id)
         if current_balance is not None:
@@ -68,10 +57,29 @@ class EconomySystem(commands.Cog):
         val = (balance, user_id, guild_id)
         self.cursor.execute(sql, val)
         self.mysql_connection.commit()
-             
+    
+    def update_username(self, user_id, guild_id, username):
+        sql = "UPDATE users SET username = %s WHERE user_id = %s AND guild_id = %s"
+        val = (username, user_id, guild_id)
+        self.cursor.execute(sql, val)
+        self.mysql_connection.commit()
+        
+    def delete_user(self, user_id, guild_id):
+        sql = "DELETE FROM users WHERE user_id = %s AND guild_id = %s"
+        val = (user_id, guild_id)
+        self.cursor.execute(sql, val)
+        self.mysql_connection.commit()
+       
+    def get_bank_balance(self, guild_id):
+        sql = "SELECT SUM(balance) FROM users WHERE guild_id = %s"
+        val = (guild_id,)
+        self.cursor.execute(sql, val)
+        result = self.cursor.fetchone()
+        return result[0]
+          
     def cog_unload(self):
         self.cursor.close()
         # No cerramos la conexión aquí, ya que es manejada en otra parte del código
-
+        
 async def setup(bot):
     await bot.add_cog(EconomySystem(bot))
