@@ -34,7 +34,7 @@ class CommandsError(commands.Cog):
                 suggestion = closest_command[0]
                 embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> Command `{command_name}` not found, try **{suggestion}**, {ctx.author.mention}!", color=embed_color)
             else:
-                embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> Command `{command_name}` not found, {ctx.author.mention}!", color=embed_color)          
+                embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> Command `{command_name}` not found, try **{suggestion}**, {ctx.author.mention}!", color=embed_color)          
             await ctx.send(embed=embed, delete_after=20)
             
         elif isinstance(error, discord.errors.HTTPException):
