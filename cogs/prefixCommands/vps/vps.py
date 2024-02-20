@@ -150,7 +150,4 @@ class host(commands.Cog):
                 embed = discord.Embed(description="No se recibieron reacciones en el tiempo establecido.")
                 await message.edit(embed=embed) 
 async def setup(bot):
-    await bot.add_cog(host(bot))
-
-
-
+    await bot.add_cog(host(bot)) 
