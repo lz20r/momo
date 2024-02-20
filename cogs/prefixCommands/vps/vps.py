@@ -44,14 +44,14 @@ class host(commands.Cog):
         
         for prompt in prompts:
             embed = discord.Embed(description=f"<:mtflechaheart:1203068677570830407> {ctx.author.mention} write your {prompt}: ")
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, delete_after=10)
             try:  
                 # Espera la respuesta del usuario durante 60 segundos
                 response = await self.bot.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=60)
                 info[prompt] = response.content 
             except asyncio.TimeoutError:
                 embed = discord.Embed(description="The time proporcionate end up, try again")
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed, delete_after=10)
                 return None
         # Retorna el diccionario con la información
         return info
@@ -70,7 +70,7 @@ class host(commands.Cog):
         """Solicita la información necesaria para rellenar las plantillas."""
         if self.channel_id is None:
             embed = discord.Embed(description="El canal de destino no está configurado. Usa el comando `setuphost` para configurarlo.")
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, delete_after=10)
             return
         infromation = discord.Embed(description=f"Please, help {self.bot.user.name} to recollect the following information and then you will be able to having your server as soon as possible:") 
         await ctx.send(embed=infromation)        
@@ -92,13 +92,13 @@ class host(commands.Cog):
                 await self.send_host_template(ctx, info)
         else:
             embed = discord.Embed(description="Campo inválido. Los campos válidos son: Mail, Username, First Name, Last Name, Password, Name Server, CPU, RAM, Disco, Egg.")
-            await ctx.send(embed=embed) 
+            await ctx.send(embed=embed, delete_after=10)  
             
     async def send_host_template(self, ctx, info):
         """Envía la plantilla con la información proporcionada al canal designado."""
         if self.channel_id is None:
             embed = discord.Embed(description="El canal de destino no está configurado. Usa el comando `setuphost` para configurarlo.")
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, delete_after=10)
             return
 
         # Crear la plantilla utilizando la información proporcionada por el usuario
@@ -139,15 +139,17 @@ class host(commands.Cog):
                 reaction, user = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
                 if str(reaction.emoji) == '✔️':
                     embed = discord.Embed(description="Información confirmada.")
-                    await message.edit(embed=embed) 
+                    await message.edit(embed=embed, delete_after=10) 
                 elif str(reaction.emoji) == '✏️':
                     embed = discord.Embed(description="Edición solicitada. Por favor, use el comando edit_hostInfo para editar.")
-                    ctx.send(embed=embed)
-                else:
-                    embed = discord.Embed(description="Información rechazada.")
-                    await message.edit(embed=embed)
+                    ctx.send(embed=embed, delete_after=10)
+                elif str(reaction.emoji) == '❌':
+                    await message.clear_reactions()  # Elimina todas las reacciones
+                    embed = discord.Embed(description="Información rechazada y reacciones eliminadas.")
+                    await message.edit(embed=embed, delete_after=10)                 
+                
             except asyncio.TimeoutError:
                 embed = discord.Embed(description="No se recibieron reacciones en el tiempo establecido.")
-                await message.edit(embed=embed) 
+                await message.edit(embed=embed, delete_after=10) 
 async def setup(bot):
     await bot.add_cog(host(bot)) 
