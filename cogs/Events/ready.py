@@ -62,7 +62,6 @@ class Ready(commands.Cog):
         # Recopila información para la tabla
         momo = self.bot.user.name
         momoid = self.bot.user.id
-        momostatus = self.bot.status.name
         servers = len(self.bot.guilds)
         channels = len(set(self.bot.get_all_channels()))
         users = len(self.bot.users)
@@ -72,7 +71,7 @@ class Ready(commands.Cog):
         cogs_data = [(x) for x in self.bot.cogs]
         commands_data = [(x.name) for x in self.bot.commands]
         
-        print(f'💞・Logged as {self.bot.user.name} in {momostatus} mode')
+        print(f'Logged in as {self.bot.user.name} ({momoid})')
         await self.change_avatar_loop()
 
     '''
