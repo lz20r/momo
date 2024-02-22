@@ -51,26 +51,18 @@ class CommandsError(commands.Cog):
         elif isinstance(error, commands.CommandOnCooldown):
             wait_time_minutes = error.retry_after / 60  # Convert seconds to minutes
             embed = discord.Embed(description=f"<a:MT_warning:1208184660987875378> This command is on cooldown. Please try again in {wait_time_minutes:.1f} minutes, {ctx.author.mention}!", color=embed_color)
-            await ctx.send(embed=embed, delete_after=20)
-        else:
-            # Get the line number where the error occurred 
-            line = traceback.format_exception(type(error), error, error.__traceback__)[0].splitlines()[-1]
-            embed = discord.Embed(
-                title=f"<a:MT_warning:1208184660987875378> **Error at executing** **`{ctx.command.qualified_name}`**",
-                description=f"""
-                Executed by {ctx.author.mention}\n\n  
-                Usage: ```{ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}``` \n 
-                """, color=embed_color)
-            await ctx.send(embed=embed, delete_after=120) 
-            
+            await ctx.send(embed=embed, delete_after=20)    
+        else:   
+            line = traceback.format_exc().splitlines()[-1]
             embed = discord.Embed(
                 title=f"<a:MT_warning:1208184660987875378> **Error at executing** **`{ctx.command.qualified_name}`**",
                 description=f"""
                 Executed by {ctx.author.mention}\n\n
+                Usage: ```{ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}``` \n
                 Error: ```{error}``` \n 
                 Line: ```{line}```
                 """, color=embed_color)
-            await ctx.send(embed=embed, delete_after=2) 
+            await ctx.send(embed=embed, delete_after=20) 
 
 async def setup(bot):
     await bot.add_cog(CommandsError(bot))  
