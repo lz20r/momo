@@ -5,10 +5,9 @@ class logs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-        
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
-        channel_id = 1206515724848332830
+        channel_id = 1208808029726834769
         target_channel = self.bot.get_channel(channel_id)
 
         if target_channel:
