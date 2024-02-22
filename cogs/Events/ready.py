@@ -1,20 +1,11 @@
-import os
-import sys
 import asyncio
-import random
-import wave
-import discord
-import difflib
-import requests 
-import mysql.connector
-import json
+import random 
+import discord 
+import requests  
 from tabulate import tabulate
 from bs4 import BeautifulSoup
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
-from dotenv import load_dotenv
-from wavelink import Player
-import wavelink
 
 from cogs.Events.status import Status
 

@@ -32,7 +32,7 @@ token = os.getenv('MOMO_TOKEN')
 host=os.getenv('momohost')
 port=os.getenv('momoport')
 user=os.getenv('momouser') 
-password= os.getenv('momoPass')
+password="GHyZVJtn.SX98Uw1oftt=euL"
 database=os.getenv('momoname')
 # Load Mysql Connection  
 def initialize_mysql_connection():
@@ -46,6 +46,11 @@ def initialize_mysql_connection():
     return mysql.connector.connect(**config) 
 # Assign the MySQL connection to the bot
 bot.mysql_connection = initialize_mysql_connection()
+
+# Pterodactyl API
+MOMO_API_PTERODACTYL = os.getenv("MOMO_API_PTERODACTYL")    
+bot.pterodactyl_api_key = MOMO_API_PTERODACTYL
+
 
 # Load your cog (make sure to handle this properly in your bot setup)
 async def load_cogs():

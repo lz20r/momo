@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 
 class EconomySystem(commands.Cog):
@@ -7,18 +6,6 @@ class EconomySystem(commands.Cog):
         # Se asume que la conexión a la base de datos ya está establecida y es accesible a través de bot.mysql_connection
         self.mysql_connection = bot.mysql_connection
         self.cursor = self.mysql_connection.cursor()
-
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        user_id = member.id
-        guild_id = member.guild.id
-        username = member.display_name
-        # Verifica si el usuario ya existe y lo registra si no es así
-        if not self.user_exists(user_id, guild_id):
-            self.register_user(user_id, guild_id, username)
-            print(f"Nuevo usuario registrado: {username} (ID: {user_id}) en el servidor {guild_id}.")
-        else:
-            print(f"El usuario {username} (ID: {user_id}) ya está registrado en el servidor {guild_id}.")
 
     def register_user(self, user_id, guild_id, username):
         sql = "INSERT INTO users (user_id, guild_id, username, balance) VALUES (%s, %s, %s, %s)"

@@ -1,3 +1,4 @@
+import random
 import discord
 from discord.ext import commands
 
@@ -11,7 +12,7 @@ class Logging(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.logs_enabled = False
-        self.log_channel_id = 1202160434686201896    
+        self.log_channel_id = 1207946595161743400    
 
     @commands.command(name="setLogs", aliases=["sl"])
     async def setLogs(self, ctx, state: str):

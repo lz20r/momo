@@ -8,7 +8,7 @@
   },
   "nodemonConfig": { 
     "events": {  
-      "restart": " cls"
+      "restart": " cls, delay 1000, nodemon momo.py"
     }
   },    
   "type": "module",  
