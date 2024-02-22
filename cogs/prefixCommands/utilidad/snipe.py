@@ -1,13 +1,15 @@
-from calendar import c
 import random
+from sys import prefix
 import discord
 from discord.ext import commands
+from httpx import get
+
+from cogs.prefixCommands.setup.setPrefix import Prefix
 
 class Snipe(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.deleted_messages = []
-
+        self.deleted_messages = [] 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
         if message.author.bot or not message.content:
@@ -68,18 +70,16 @@ class Snipe(commands.Cog):
         self.deleted_messages = []
         await ctx.send("Historial de mensajes borrados limpiado.")
         
-    @commands.command(name="snipehelp", aliases=["shelp"])
-    async def snipe_help(self, ctx):
+    @commands.command(name="snipe", aliases=["shelp"])
+     
+    async def snipe_help(self, ctx):   
         embed = discord.Embed(title="Comandos Snipe", color=random_pastel_color())
-        embed.add_field(name="Comando", value="`snipe`")
-        embed.add_field(name="Alias", value="`s`")
-        embed.add_field(name="Descripción", value="Muestra el mensaje borrado mas reciente.")
-        embed.add_field(name="Uso", value="`snipe [index]`")
-        embed.add_field(name="Ejemplo", value="`snipe 1`")
-        embed.add_field(name="Argumentos", value="`index`")
-        embed.add_field(name="Valores Permitidos", value="`1-10`")
-        embed.add_field(name="Canales Permitidos", value="`Todos`")
-        embed.add_field(name="Permisos Necesarios", value="`Ninguno`")
+        embed.add_field(name=f"snipeNormal", value="Muestra el contenido de un mensaje borrado.", inline=False)
+        embed.add_field(name=f"snipeEmbed", value="Muestra un embed de un mensaje borrado.", inline=False)
+        embed.add_field(name=f"clearsnipe", value="Limpia el historial de mensajes borrados.", inline=False)
+        embed.add_field(name=f"history", value="Muestra el historial de mensajes borrados.", inline=False)
+        embed.set_footer(text="Comandos Snipe")
+        embed.set_author(name="Snipe", icon_url=self.bot.user.avatar.url) 
         await ctx.send(embed=embed)
          
 def random_pastel_color():

@@ -1,11 +1,5 @@
-import discord
-import sys
-import difflib
 import requests
-from discord.ext import commands 
-from discord.ext.commands import CommandNotFound
-import discord as prefix
-from discord.ui import Select, View, Button, button
+from discord.ext import commands   
 
 class Changepfp(commands.Cog):
     def __init__(self, bot):
