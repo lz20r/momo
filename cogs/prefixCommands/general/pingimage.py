@@ -5,21 +5,24 @@ class PinImageCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='pinimage', aliases='ipimg')
+    @commands.command(name='pinimage', aliases=['ipimg'])
     async def pin_image(self, ctx):
         # Comprobar si el mensaje tiene archivos adjuntos
         if not ctx.message.attachments:
-            await ctx.send("Por favor, adjunta una imagen al comando.")
+            embed = discord.Embed(description="Por favor, adjunta una imagen al comando.", color=discord.Color.red())
+            await ctx.send(embed=embed) 
             return
 
         # Comprobar permisos del usuario
         if not ctx.message.author.guild_permissions.manage_messages:
-            await ctx.send("No tienes permisos para fijar mensajes.")
+            embed = discord.Embed(description="No tienes permisos para fijar mensajes.", color=discord.Color.red())
+            await ctx.send(embed=embed) 
             return
 
         # Comprobar permisos del bot
         if not ctx.guild.me.guild_permissions.manage_messages:
-            await ctx.send("No tengo permisos para fijar mensajes.")
+            embed = discord.Embed(description="No tengo permisos para fijar mensajes.", color=discord.Color.red())
+            await ctx.send(embed=embed) 
             return
 
         try:
@@ -33,7 +36,8 @@ class PinImageCommands(commands.Cog):
             await message.pin()
 
         except discord.HTTPException:
-            await ctx.send("No pude enviar o fijar la imagen. Asegúrate de que tengo los permisos necesarios.")
+            embed = discord.Embed(description="No pude enviar o fijar la imagen.", color=discord.Color.red())
+            await ctx.send(embed=embed)
 
-asycn def setup(bot):
+async def setup(bot):
    await bot.add_cog(PinImageCommands(bot))

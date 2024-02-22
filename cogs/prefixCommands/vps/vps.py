@@ -1,10 +1,9 @@
-import email
-from math import e
+
+import os
+import json
+import asyncio
 import discord
 from discord.ext import commands
-import asyncio
-import json
-import os
 
 from cogs.prefixCommands.setup.setPrefix import Prefix
 
@@ -40,11 +39,10 @@ class host(commands.Cog):
     async def request_info(self, ctx):
         """Solicita la información necesaria para rellenar las plantillas."""
         info = {}  # Diccionario para almacenar la información solicitada
-        prompts = ["Mail", "Username", "First Name", "Last Name", "Password", "Name Server", "CPU", "RAM", "Disco", "Egg"]  # Prompts para solicitar la información
-        
+        prompts = ["Mail", "Username", "First Name", "Last Name", "Password", "Name Server", "CPU", "RAM", "Disco", "Egg"]  # Prompts para solicitar la información 
         for prompt in prompts:
             embed = discord.Embed(description=f"<:mtflechaheart:1203068677570830407> {ctx.author.mention} write your {prompt}: ")
-            await ctx.send(embed=embed, delete_after=10)
+            await ctx.send(embed=embed)
             try:  
                 # Espera la respuesta del usuario durante 60 segundos
                 response = await self.bot.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=60)
@@ -79,20 +77,45 @@ class host(commands.Cog):
         await ctx.send(embed=embed)
         if info: 
             await self.send_host_template(ctx, info)  # Enviar la plantilla con la información proporcionada
-
+  
+ 
     @commands.command(name="edit_hostInfo", aliases=["eHostI"])
-    @commands.has_permissions(administrator=True)
-    async def edit_host_info(self, ctx, field: str, *, new_value: str):
-        """Permite a los administradores editar la información."""
-        if field.lower() in ["mail", "username", "first name", "last name", "password", "name server", "cpu", "ram", "disco", "egg"]:
-            await ctx.send(f"Editando {field}...")
-            info = await self.request_info(ctx)
-            if info:
-                info[field.title()] = new_value
-                await self.send_host_template(ctx, info)
-        else:
-            embed = discord.Embed(description="Campo inválido. Los campos válidos son: Mail, Username, First Name, Last Name, Password, Name Server, CPU, RAM, Disco, Egg.")
-            await ctx.send(embed=embed, delete_after=10)  
+    async def edit_host_info(self, ctx):
+        """Muestra la información actual de cada campo y permite su edición si así se desea."""
+        valid_fields = ["mail", "username", "first name", "last name", "password", "name server", "cpu", "ram", "disco", "egg"]
+        info = await self.request_info(ctx)  # Suponemos que esta función recupera la info actual
+
+        for field in valid_fields:
+            # Muestra la información actual del campo
+            current_value = info.get(field.title(), "No disponible")  # Asume que `info` es un diccionario con la información actual
+            await ctx.send(f"El valor actual para '{field}' es: {current_value}. ¿Quieres cambiarlo? Responde con 'si' para confirmar o 'no' para continuar.")
+
+            try:
+                decision = await self.bot.wait_for('message', check=lambda m: m.author == ctx.author and m.channel == ctx.channel and m.content.lower() in ["si", "no"], timeout=30.0)
+            except asyncio.TimeoutError:
+                await ctx.send("Se agotó el tiempo de espera. Pasando al siguiente campo.")
+                continue
+
+            if decision.content.lower() == "si":
+                await ctx.send(f"Introduce el nuevo valor para '{field}':")
+
+                try:
+                    new_value_msg = await self.bot.wait_for('message', check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=60.0)
+                    new_value = new_value_msg.content
+                    # Actualiza el campo con el nuevo valor
+                    info[field.title()] = new_value
+                    await ctx.send(f"Campo '{field}' actualizado a: {new_value}")
+                except asyncio.TimeoutError:
+                    await ctx.send("Se agotó el tiempo de espera para el nuevo valor. Pasando al siguiente campo.")
+                    continue
+            else:
+                await ctx.send(f"Manteniendo el valor actual para '{field}'.")
+
+        # Aquí puedes enviar la información actualizada donde sea necesario, por ejemplo:
+        await self.send_host_template(ctx, info)
+        await ctx.send("Revisión completa. Todos los cambios solicitados han sido aplicados.")
+
+
             
     async def send_host_template(self, ctx, info):
         """Envía la plantilla con la información proporcionada al canal designado."""
@@ -136,7 +159,7 @@ class host(commands.Cog):
                 return user == ctx.author and str(reaction.emoji) in ['✏️', '✔️', '❌'] and reaction.message.id == message.id
 
             try:
-                reaction, user = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
+                reaction, user = await self.bot.wait_for('reaction_add', check=check)
                 if str(reaction.emoji) == '✔️':
                     embed = discord.Embed(description="Información confirmada.")
                     await message.edit(embed=embed, delete_after=10) 

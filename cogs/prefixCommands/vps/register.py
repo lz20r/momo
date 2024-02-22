@@ -1,3 +1,4 @@
+from math import e
 import os
 import discord
 import requests
@@ -5,12 +6,12 @@ from dotenv import load_dotenv
 from discord.ext import commands
 
 load_dotenv() 
-MOMO_API_PTERODACTYL = os.getenv("MOMO_API_PTERODACTYL")    
+MOMO_API_PTERODACTYL = os.getenv("MOMO_API_PTERODACTYL")
 class Register(commands.Cog): 
     def __init__(self, bot):
         self.bot = bot
         self.pterodactyl_api_url = 'https://panel.cinammon.es/api/application/users'
-        self.pterodactyl_api_key = MOMO_API_PTERODACTYL
+        self.pterodactyl_api_key = 'ptla_gh3R4rvVB3Eihlt2rSelnJnCIo89N4KM03gfcDlsh33'
 
     @commands.command(name="register", aliases=['reg','regist', 'cg'])
     async def registration(self, ctx, email:str, username:str, first_name:str, last_name:str, password:str): 
@@ -24,16 +25,20 @@ class Register(commands.Cog):
             "last_name": last_name,
             "password": password 
         }
+        print(user_data) 
         response = self.create_pterodactyl_user(user_data)
         print(response) 
-        if 'errors' in response:  
-            
+        if 'errors' in response:   
+            embed = discord.Embed(title="Registration in Cinammon Hosting", description=f"""<:momostarw:1206266007090364486> {username} was not registered.\n Please check the data and try again.""")
+            embed.set_footer(text="Cinammon Hosting")
+            await ctx.send(embed=embed, delete_after=120)
+        elif response.get("errors"):
             embed = discord.Embed(title="Registration in Cinammon Hosting", description=f"""<:momostarw:1206266007090364486> {ctx.author.name} **{username}** was registered with {self.bot.user.name}.\n""") 
             embed.set_footer(text="Cinammon Hosting")
             embed.set_thumbnail(url=ctx.author.avatar.url)
             embed.description=f"""<:momostarw:1206266007090364486> {ctx.author.name}, **{username}** was registered with {self.bot.user.name}.\n"""  
             embed.add_field(name="Cinammon Hosting user", value=f"```Information of {username}:\n -email: {email}\n -username: {username}\n -first name: {first_name}\n -last name: {last_name}\n -password: {password}```") 
-            await ctx.send(embed=embed, delete_after=120) 
+            await ctx.send(embed=embed, delete_after=120)  
         else:
             embed = discord.Embed(title="Registration in Cinammon Hosting", description=f"""<:momostarw:1206266007090364486> {ctx.author.name} **{username}** was successfully registered.\n Thank you for trusting and registering in Cinammon Hosting.""")
             embed.set_footer(text="Cinammon Hosting")
@@ -46,8 +51,8 @@ class Register(commands.Cog):
             "Authorization": f"Bearer {self.pterodactyl_api_key}" 
         } 
         
-        response = requests.post(self.pterodactyl_api_url, headers=headers, data=user_data)
-
+        response = requests.post(self.pterodactyl_api_url, headers=headers, json=user_data)
+        print(response)
         return response.json()
 
 async def setup(bot):

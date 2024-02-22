@@ -47,7 +47,7 @@ class setMgchat(commands.Cog):
                     description="<:momowarn:1206682132311842878> Please specify a momochannel to set for Momo Global Chat." 
                 )
                 embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar.url)  
-                await ctx.send(embed=embed) 
+                await ctx.send(embed=embed, delete_after=15) 
                 return
             
             momochannelid = momochannel.id if isinstance(momochannel, discord.TextChannel) else momochannel
@@ -60,7 +60,7 @@ class setMgchat(commands.Cog):
             ) 
             embed.set_thumbnail(url=ctx.guild.icon.url),
             embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar.url)            
-            await ctx.send(embed=embed)   
+            await ctx.send(embed=embed, delete_after=15)   
             
         elif action == "remove":
             momochatconfig = self.loadmomochatconfig()
@@ -71,15 +71,15 @@ class setMgchat(commands.Cog):
                 if momoremovedchannel:
                     embed = discord.Embed( description=f"<:momostar:1206265916472692839> Successfully removed {momoremovedchannel.mention} as the Momo Global Chat channel.")
                     embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar.url)             
-                    await ctx.send(embed=embed)
+                    await ctx.send(embed=embed, delete_after=15)
 
                 else:
                     embed = discord.Embed(description=f"<:momostar:1206265916472692839> Successfully removed channel with ID `{momoremovedchannelid}` as the Momo Global Chat channel.")
                     embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar.url)  
-                    await ctx.send(embed=embed)
+                    await ctx.send(embed=embed, delete_after=15)
             else:
                 embed = discord.Embed(description="<:momowarn:1206682132311842878> Momo Global Chat is not configured yet. Please try again.")
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed, delete_after=15)
         else:
             embed = discord.Embed(
                 title="Momo Global Chat",
@@ -90,7 +90,7 @@ class setMgchat(commands.Cog):
             )
             embed.set_thumbnail(url=ctx.guild.icon.url),
             embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar.url)
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, delete_after=15)
 
 async def setup(bot):
     await bot.add_cog(setMgchat(bot))

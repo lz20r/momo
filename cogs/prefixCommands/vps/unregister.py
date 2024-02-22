@@ -6,28 +6,23 @@ from discord.ext import commands
 
 load_dotenv() 
 MOMO_API_PTERODACTYL = os.getenv("MOMO_API_PTERODACTYL")    
-class Unregister(commands.Cog, name="registro"): 
+class Unregister(commands.Cog): 
     def __init__(self, bot):
         self.bot = bot
-        self.pterodactyl_api_url = f'https://panel.cinammon.es/api/application/users/'
-        self.pterodactyl_api_key = MOMO_API_PTERODACTYL
+        self.pterodactyl_api_url = 'https://panel.cinammon.es/api/application/users/'
+        self.pterodactyl_api_key = 'ptla_WQ0gULSSM29XOQ1PT3zvvdxEGSf9tcNM34Vj5vPEKJu'
         
-    @commands.command(name="unregister", aliases=['unreg','unregist', 'ucg'])
-    async def unregistration(self, ctx, email:str, username:str, first_name:str, last_name:str, password:str, id:str): 
+    @commands.command(name="unregister", aliases=['kill','delete', 'ucg'])
+    async def unregistration(self, ctx, email:str,): 
         if ctx.channel.id != 1208843557729869935:
             return
             
         user_data = { 
             "email": email,
-            "username": username,
-            "first_name": first_name,
-            "last_name": last_name,
-            "password": password,
-            "user_id": id
         }
-        
+        print(user_data)
         response = self.delete_pterodactyl_user(user_data) 
-
+        print(response)
         if 'errors' in response:  
             embed = discord.Embed(title="Unregistration in Cinammon Hosting", description=f"""<:momostarw:1206266007090364486> {ctx.author.name} **{username}** was unregistered with {self.bot.user.name}.\n""") 
             embed.set_footer(text="Cinammon Hosting")

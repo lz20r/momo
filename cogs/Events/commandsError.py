@@ -70,7 +70,7 @@ class CommandsError(commands.Cog):
                 Error: ```{error}``` \n 
                 Line: ```{line}```
                 """, color=embed_color)
-            await ctx.send(embed=embed, delete_after=120) 
+            await ctx.send(embed=embed, delete_after=2) 
 
 async def setup(bot):
     await bot.add_cog(CommandsError(bot))  

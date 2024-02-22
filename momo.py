@@ -28,13 +28,11 @@ async def load_extensions():
 load_dotenv() 
 token = os.getenv('MOMO_TOKEN') 
 
-wolframapi = os.getenv('MOMO_WOLFRAM_API') 
-
 # Load Mysql Connection Details 
 host=os.getenv('momohost')
 port=os.getenv('momoport')
 user=os.getenv('momouser') 
-password="GHyZVJtn.SX98Uw1oftt=euL"
+password= os.getenv('momoPass')
 database=os.getenv('momoname')
 # Load Mysql Connection  
 def initialize_mysql_connection():
@@ -44,19 +42,19 @@ def initialize_mysql_connection():
         'host': host, 
         'port': port,
         'database': database  
-    }  
-    return mysql.connector.connect(**config)
-
+    }   
+    return mysql.connector.connect(**config) 
 # Assign the MySQL connection to the bot
 bot.mysql_connection = initialize_mysql_connection()
 
 # Load your cog (make sure to handle this properly in your bot setup)
 async def load_cogs():
-    await bot.load_extension('cogs.Events.economySystem')
-    await bot.load_extension('cogs.prefixCommands.economy.economy')
+    await bot.load_extension('cogs.Events.economySystem') 
+    await bot.load_extension('cogs.Events.ticketSystem') 
 async def main():
     async with bot: 
         await load_extensions() 
         await bot.start(token)
 
 asyncio.run(main()) 
+ 

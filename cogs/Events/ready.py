@@ -2,6 +2,7 @@ import os
 import sys
 import asyncio
 import random
+import wave
 import discord
 import difflib
 import requests 
@@ -11,13 +12,19 @@ from tabulate import tabulate
 from bs4 import BeautifulSoup
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
+from dotenv import load_dotenv
+from wavelink import Player
+import wavelink
+
+from cogs.Events.status import Status
 
 class Ready(commands.Cog):
     def __init__(self, bot):
         self.bot = bot 
-        self.BOT_ID = '1143237780466569306'
-        self.used_images = set()
-
+        self.BOT_ID = '1143237780466569306' 
+        self.used_images = set()  
+        self.mysql_connection = bot.mysql_connection
+        
     async def get_image_urls(self):
         image_urls = []
         with open('animes.txt', 'r') as file:
@@ -61,41 +68,13 @@ class Ready(commands.Cog):
 
         # Recopila información para la tabla
         momo = self.bot.user.name
-        momoid = self.bot.user.id
-        servers = len(self.bot.guilds)
-        channels = len(set(self.bot.get_all_channels()))
-        users = len(self.bot.users)
-        members = len(set(self.bot.get_all_members()))
-        cogs = len(self.bot.cogs)
-        commands = len(self.bot.commands)
-        cogs_data = [(x) for x in self.bot.cogs]
-        commands_data = [(x.name) for x in self.bot.commands]
+        momoid = self.bot.user.id 
+        momoDB = self.mysql_connection.database
         
-        print(f'Logged in as {self.bot.user.name} ({momoid})')
+        print(f'Logged in as {momo} ({momoid})')
+        print(f'{momo} connected to {momoDB} successfully!')
         await self.change_avatar_loop()
-
-    '''
-        print(f'\n\n------------------------------------------') 
-        print(f'Logged in as {self.bot.user.name} ({momoid})') 
-        print(f'{momo} status: {self.bot.status.name}')    
-        print(f'-------------------------------------------')
-        print(f'{momo} is in {servers} servers')
-        print(f'{momo} is in {channels} channels')  
-        print(f'{momo} has {users} users') 
-        print(f'{momo} has {members} members')  
-        print(f'-------------------------------------------')
-        print(f'Loaded {cogs} cogs')         
-        print(f'Loaded {commands} commands') 
-        print(f'-------------------------------------------')
-        table = tabulate([
-            ["Cogs Loaded", "\n".join(cogs_data)],
-            ["Commands Loaded", "\n".join(commands_data)],                        
-        ], headers=["Cogs & Commands", "Data"], tablefmt="fancy_grid")
-
-        print(table)  
-    '''
-
-        
+   
     async def change_avatar_loop(self):
         while True:
             await self.change_avatar()

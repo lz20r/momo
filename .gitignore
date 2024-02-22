@@ -3,6 +3,7 @@ momo
 node_modules
 .env 
 main.txt
+main.py
 animes.txt
 Momo Data
 economy.db
