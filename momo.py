@@ -27,12 +27,11 @@ async def load_extensions():
 # Load Tokens 
 load_dotenv() 
 token = os.getenv('MOMO_TOKEN') 
-
 # Load Mysql Connection Details  
 host=os.getenv('momohost')
 port=os.getenv('momoport')
 user=os.getenv('momouser') 
-password="GHyZVJtn.SX98Uw1oftt=euL" 
+password: str = os.getenv('momopass') 
 database=os.getenv('momoname')
 # Load Mysql Connection  
 def initialize_mysql_connection():
