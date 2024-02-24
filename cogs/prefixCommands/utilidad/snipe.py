@@ -1,4 +1,6 @@
+from math import e
 import random
+from re import T
 from sys import prefix
 import discord
 from discord.ext import commands
@@ -16,7 +18,7 @@ class Snipe(commands.Cog):
             return
 
         self.deleted_messages.insert(0, (message.content, message.author, message.channel, message.created_at))
-        if len(self.deleted_messages) > 10:
+        if len(self.deleted_messages) > 100:
             self.deleted_messages.pop(-1)
 
     @commands.command(name="history", aliases=["sh"])
@@ -27,10 +29,12 @@ class Snipe(commands.Cog):
             return
 
         embed = discord.Embed(title="Historial de Mensajes Borrados", description="Aquí están los últimos mensajes borrados:", color=random_pastel_color())
-        for i, (content, author, channel, time) in enumerate(self.deleted_messages[:10], start=1):
-            embed.add_field(name=f"Mensaje {i}", value=f"**Autor:** {author.display_name}\n**Canal:** {channel.mention}\n**Contenido:** {content[:50]}{'...' if len(content) > 50 else ''}", inline=False)
-
+        embed.set_author(name="Snipe", icon_url=self.bot.user.avatar.url)
+        embed.set_footer(text=f"Comando usado por {ctx.author}")
+        for i, (content, author, channel, time) in enumerate(self.deleted_messages[:100], start=1):
+            embed.add_field(name=f"Mensaje {i}", value=f"**Autor:** {author.display_name}\n**Canal:** {channel.mention}\n\n**Contenido:** {content[:100]}{'...' if len(content) > 100 else ''}", inline=True) 
         await ctx.send(embed=embed)
+        
 
     @commands.command(name="snipeEmbed", aliases=["sE"])
     async def snipeEmbed(self, ctx, index: int = 1):
@@ -45,7 +49,7 @@ class Snipe(commands.Cog):
             else:
                 embed = discord.Embed(description="Este mensaje fue borrado en otro canal.", color=random_pastel_color())
                 embed.set_footer(text=f"Borrado en {channel} | Mensaje {index + 1} de {len(self.deleted_messages)}")
-                await channel.send(embed=embed) 
+                await channel.send(embed=embed)  
         else:
             embed = discord.Embed(description="Número de mensaje inválido. Usa un número entre 1 y 10.", color=random_pastel_color())
             embed.set_footer(text=f"Borrado en {channel} | Mensaje {index + 1} de {len(self.deleted_messages)}")
@@ -57,7 +61,7 @@ class Snipe(commands.Cog):
         if 0 <= index < len(self.deleted_messages):
             content, author, channel, time = self.deleted_messages[index]
             if channel == ctx.channel:
-                await ctx.send(content)  
+                await ctx.send(f" **Autor:** {author.display_name} \n" + "**Canal:** " + channel.mention + "\n\n" + "**Contenido:** \n" + content)  
             else: 
                 embed = discord.Embed(description="Este mensaje fue borrado en otro canal.", color=random_pastel_color())
                 embed.set_footer(text=f"Borrado en {channel} | Mensaje {index + 1} de {len(self.deleted_messages)}")

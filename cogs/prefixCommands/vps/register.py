@@ -16,7 +16,7 @@ class Register(commands.Cog):
 
     @commands.command(name="register", aliases=['reg','regist', 'cg'])
     async def registration(self, ctx, email:str, username:str, first_name:str, last_name:str, password:str): 
-        if ctx.channel.id != 1208880661939748904:
+        if ctx.channel.id != 1210710084468875316 and ctx.channel.id != 1210296608596688988:
             return 
         
         user_data = { 

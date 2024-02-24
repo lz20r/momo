@@ -23,8 +23,8 @@ class EconomySystem(commands.Cog):
     def get_balance(self, user_id, guild_id):
         sql = "SELECT balance FROM users WHERE user_id = %s AND guild_id = %s"
         val = (user_id, guild_id)
-        self.cursor.execute(sql, val)
-        result = self.cursor.fetchone()
+        self.cursor.execute(sql, val) 
+        result = self.cursor.fetchone() 
         return int(result[0]) if result is not None else None
     
     def add_coins(self, user_id, guild_id, amount):
