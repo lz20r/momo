@@ -22,8 +22,8 @@ class SetsSystem(commands.Cog):
         channel = self.bot.get_channel(self.channel_id)
         if not channel:
             print(f"No se encontró el canal con ID {self.channel_id}")
-            return
-
+            return 
+        
         tables = {
             "welcome_guilds": '''
                 CREATE TABLE IF NOT EXISTS welcome_guilds (
@@ -52,8 +52,7 @@ class SetsSystem(commands.Cog):
                     message TEXT
                 );
             '''
-        }
-
+        }  
         await self.create_tables(tables, channel)
 
     async def create_tables(self, tables, channel):
